@@ -1,0 +1,5 @@
+David_Ray 100 40.5 1
+Juan_Hunter 15040.5 1 
+John_Doe 200 40.5 1
+Alex 500 40.5 1 
+Artu 200 40.5 1
