@@ -1,7 +1,7 @@
 // g++ -std=c++20 main.cpp -o myProgram && ./myProgram
 #include <iostream>
 
-void printPointer(int & ref)
+void printPointer(const int & ref)
 {
     std::cout << &ref << " value: "<< ref << " bytes: " << sizeof(ref) << "\n";
 }
