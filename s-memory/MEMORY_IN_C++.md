@@ -7,39 +7,8 @@ C++ allows developers to get access to some location in RAM during the compilati
 
 |  Type | What stores? | Size & Data structure | Usage |
 | --- | --- | --- | --- |
-| Stack | Everything related to the program execution at compile time:
-- OS specifics
-- Primitives
-- Functions calls
-- Pointers (NOT necessarily  data at the pointer) | Static memory (megabytes) 
-*when ran out, yields: Stack overflow
-
-Fast, but limited
-
-First in, last out structure.
-
-Stored altogether linearly in memory. 
-
-Gets deallocated automatically | To allocate fixed-sized memory for local variables that are known at compile time.
-
-Local variables without the new keyword get allocated by default in the stack memory. |
-| Heap | Anything that the developer determines both at compile time and runtime.
-
-The actual data at a given pointer. | Dynamic memory (available RAM)
-
-Slow, but larger
-
-Complicated & expensive
-
-Stored in a randomly available  space. It could be far away from the stack memory addresses.
-
-Does not get deallocated, needs to be deleted manually. | To allocate dynamic-sized memory (during compile and runtime), useful for larger or variable-sized data.
-
- * & new indicates that is using pointers, then the size int ,float, MyClass of the memory to allocate.
-
-The memory is accessed via pointers.
-
-Once we finished using the data, we use delete to free the space in RAM. |
+| Stack | Everything related to the program execution at compile time: OS specifics, Primitives, Functions calls, Pointers (NOT necessarily  data at the pointer). | Static memory (megabytes), and when it rans out, yields: Stack overflow. It is fast, but limited. Has a “first in, last out” structure. It is stored altogether linearly in memory. And gets deallocated automatically. | To allocate fixed-sized memory for local variables that are known at compile time. Local variables without the new keyword get allocated by default in the stack memory. |
+| Heap | Anything that the developer determines both at compile time and runtime. The actual data at a given pointer. | Dynamic memory (available RAM). Its is slow, but larger, complicated & expensive. It is stored in a randomly available  space. It could be far away from the stack memory addresses. Does not get deallocated, needs to be deleted manually. | To allocate dynamic-sized memory (during compile and runtime), useful for larger or variable-sized data. * & new indicates that is using pointers, then the size int ,float, MyClass of the memory to allocate. The memory is accessed via pointers. Once we finished using the data, we use delete to free the space in RAM. |
 
 ```cpp
 int level = 1; // stack memory
