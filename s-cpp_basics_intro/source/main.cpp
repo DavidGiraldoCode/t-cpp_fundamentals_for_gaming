@@ -23,7 +23,7 @@ public:
         , m_damage(damage)
         , m_isAlive(alive)
     {
-    }
+    } 
 
     int getDamage() const
     {
