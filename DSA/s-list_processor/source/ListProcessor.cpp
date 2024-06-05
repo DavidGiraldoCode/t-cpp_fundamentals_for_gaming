@@ -26,6 +26,22 @@ int * ListProcessor::arraySequence(int from, int to)
     return sequence; 
 }
 
+std::vector<int> ListProcessor::vetorSequence(int from, int to)
+{
+    if(from == to) return {}; //empty array
+    if(from > to) throw std::logic_error{"The beginning of the sequence should be grater than the end"}; //IllegalArgumentException
+
+    int size = to - from;
+    std::vector<int> sequence(size); //Recall, this is allocated in heap memory, the caller has to delete it after use.
+
+    for(size_t i = 0; i < sequence.size(); i ++)
+    {
+        sequence[i] = from + i;
+        //std::cout << sequence[i] << "\n";
+    }
+    return sequence; //? Does it get pass as value or reference?
+}
+
 // TODO Exercise 2: Shuffling Lists
 int *ListProcessor::shuffled(int numbers[])
 {
