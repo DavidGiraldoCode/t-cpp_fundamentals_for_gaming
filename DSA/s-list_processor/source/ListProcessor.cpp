@@ -11,25 +11,36 @@ void ListProcessor::sayHi()
     std::cout << "ListProcessor ready" << "\n";
 }
 // TODO Exercise 1: Populating Lists
-int *ListProcessor::arraySequence(int from, int to)
+int * ListProcessor::arraySequence(int from, int to)
 {
-    int newArray[0];
+    if(from == to) return new int[0]; //empty array
+    if(from > to) return nullptr; //IllegalArgumentException
+
+    int size = to - from;
+    int* sequence = new int[size]; //Recall, this is allocated in heap memory, the caller has to delete it after use.
+
+    for(size_t i = 0; i < size; i ++)
+    {
+        sequence[i] = from + i;
+    }
     //! warning: address of stack memory associated with local variable 'newArray' returned
-    return newArray; 
+    return sequence; 
 }
 
 // TODO Exercise 2: Shuffling Lists
 int *ListProcessor::shuffled(int numbers[])
 {
-    int newArray[0];
-    return newArray;
+    int* sequence = new int[0];
+    return sequence;
 }
 
 // TODO Exercise 3: Summing Lists Iteratively
 int ListProcessor::sumIterative(int numbers[])
 {
+    return 0;
 }
 // TODO Exercise 4: Summing Lists Recursively
 int ListProcessor::sumRecursive(int numbers[])
 {
+    return 0;
 }
