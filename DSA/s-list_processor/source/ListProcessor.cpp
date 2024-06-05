@@ -1,4 +1,3 @@
-#include <iostream>
 #include "ListProcessor.h"
 
 ListProcessor::ListProcessor()
@@ -14,7 +13,7 @@ void ListProcessor::sayHi()
 int * ListProcessor::arraySequence(int from, int to)
 {
     if(from == to) return new int[0]; //empty array
-    if(from > to) return nullptr; //IllegalArgumentException
+    if(from > to) throw std::logic_error{"The beginning of the sequence should be grater than the end"}; //IllegalArgumentException
 
     int size = to - from;
     int* sequence = new int[size]; //Recall, this is allocated in heap memory, the caller has to delete it after use.
@@ -22,8 +21,8 @@ int * ListProcessor::arraySequence(int from, int to)
     for(size_t i = 0; i < size; i ++)
     {
         sequence[i] = from + i;
+        //std::cout << sequence[i] << "\n";
     }
-    //! warning: address of stack memory associated with local variable 'newArray' returned
     return sequence; 
 }
 
