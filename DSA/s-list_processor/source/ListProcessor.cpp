@@ -9,8 +9,8 @@ void ListProcessor::sayHi()
 {
     std::cout << "ListProcessor ready" << "\n";
 }
-// TODO Exercise 1: Populating Lists
-int *ListProcessor::arraySequence(int from, int to)
+//* Exercise 1: Populating Lists
+int *ListProcessor::arraySequence(const int from, const int to)
 {
     if (from == to)
         return new int[0]; // empty array
@@ -28,7 +28,7 @@ int *ListProcessor::arraySequence(int from, int to)
     return sequence;
 }
 
-std::vector<int> ListProcessor::vetorSequence(int from, int to)
+std::vector<int> ListProcessor::vetorSequence(const int from, const int to)
 {
     if (from == to)
         return {}; // empty array
@@ -46,8 +46,8 @@ std::vector<int> ListProcessor::vetorSequence(int from, int to)
     return sequence; //? Does it get pass as value or reference?
 }
 
-// TODO Exercise 2: Shuffling Lists
-int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
+//* Exercise 2: Shuffling Lists
+int *ListProcessor::shuffled(const int numbers[], const int numbers_size = 0)
 {
     int size = numbers_size;
     int index = 0;
@@ -79,7 +79,7 @@ int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
     return shuffledArray;
 }
 
-std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
+std::vector<int> ListProcessor::shuffled(const std::vector<int> &numbers)
 {
     std::vector<int> shuffledVector;
     std::unordered_map<int, int> randomRecods{};
@@ -109,12 +109,31 @@ std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
 }
 
 // TODO Exercise 3: Summing Lists Iteratively
-int ListProcessor::sumIterative(int numbers[])
+int ListProcessor::sumIterative(const int numbers[], int numbers_size = 0)
 {
-    return 0;
+    int accumulator = 0;
+    //numbers[0] = 69;
+    if (numbers_size == 0) return 0;
+    for (size_t i = 0; i < numbers_size; i++)
+    {
+        accumulator += numbers[i];
+    }
+
+    return accumulator;
+}
+int ListProcessor::sumIterative(const std::vector<int> &numbers)
+{
+    int accumulator = 0;
+    if (numbers.size() == 0) return 0;
+    for (auto num : numbers)
+    {
+        accumulator += num;
+    }
+
+    return accumulator;
 }
 // TODO Exercise 4: Summing Lists Recursively
-int ListProcessor::sumRecursive(int numbers[])
+int ListProcessor::sumRecursive(const int numbers[], const int numbers_size)
 {
     return 0;
 }
