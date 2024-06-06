@@ -85,6 +85,41 @@ int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
     return shuffledArray;
 }
 
+std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
+{
+    std::vector<int> shuffledVector;
+    std::unordered_map<int, int> randomRecods{};
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration timelapse = t1 - t2;
+    unsigned seed = timelapse.count();
+    std::uniform_int_distribution<int> int_dis{0, (int)(numbers.size() - 1)};
+    int interator = 0;
+
+    while (interator < numbers.size())
+    {
+        std::mt19937_64 random_engine(seed);
+        int randNum = int_dis(random_engine);
+        if (randomRecods.count(randNum) == 0)
+        {
+            randomRecods[randNum] = interator;
+            // t2 = std::chrono::high_resolution_clock::now();
+            // timelapse = t1 - t2;
+            // seed = timelapse.count();
+            shuffledVector.push_back(numbers[randNum]);
+            interator++;
+        }
+        // else
+        // {
+        t2 = std::chrono::high_resolution_clock::now();
+        timelapse = t1 - t2;
+        seed = timelapse.count();
+        //}
+    }
+
+    return shuffledVector;
+}
+
 // TODO Exercise 3: Summing Lists Iteratively
 int ListProcessor::sumIterative(int numbers[])
 {

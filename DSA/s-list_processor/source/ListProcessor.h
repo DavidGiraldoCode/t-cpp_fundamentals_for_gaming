@@ -8,9 +8,10 @@ class ListProcessor
 public:
     ListProcessor();
     void sayHi();
-    int * arraySequence(int from, int to);
+    int *arraySequence(int from, int to);
     std::vector<int> vetorSequence(int from, int to);
-    int * shuffled(int numbers[], int numbers_size);
+    int *shuffled(int numbers[], int numbers_size);
+    std::vector<int> shuffled(std::vector<int> &numbers);
     int sumIterative(int numbers[]);
     int sumRecursive(int numbers[]);
 };
