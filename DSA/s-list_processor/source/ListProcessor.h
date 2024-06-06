@@ -12,6 +12,7 @@ public:
     std::vector<int> vetorSequence(int from, int to);
     int *shuffled(int numbers[], int numbers_size);
     std::vector<int> shuffled(std::vector<int> &numbers);
-    int sumIterative(int numbers[]);
+    int sumIterative(int numbers[], int numbers_size);
+    int sumIterative(std::vector<int> &numbers);
     int sumRecursive(int numbers[]);
 };

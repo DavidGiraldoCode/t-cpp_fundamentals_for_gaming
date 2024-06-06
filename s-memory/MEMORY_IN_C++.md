@@ -27,7 +27,7 @@ We can use the **stack memory** with pointers with `*` and `&` operators
 int i = 6; // 4 bytes is allocated on the stack memory
 int * p; // creater a pointer to an int, the p is 4 bytes big
 p = &i; // & = address of
-*p = 7; // * = dereference
+*p = 7; // * = dereference, or value at address
 ```
 
 ***⚠️ UnInitialised values in C++ are unsafe,** because the stack will assigned to that variable whatever is on RAM at that time (garbage values) and relys on future code to set them.

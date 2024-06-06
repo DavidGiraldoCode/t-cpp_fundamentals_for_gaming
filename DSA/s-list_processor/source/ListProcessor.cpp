@@ -9,7 +9,7 @@ void ListProcessor::sayHi()
 {
     std::cout << "ListProcessor ready" << "\n";
 }
-// TODO Exercise 1: Populating Lists
+//* Exercise 1: Populating Lists
 int *ListProcessor::arraySequence(int from, int to)
 {
     if (from == to)
@@ -46,7 +46,7 @@ std::vector<int> ListProcessor::vetorSequence(int from, int to)
     return sequence; //? Does it get pass as value or reference?
 }
 
-// TODO Exercise 2: Shuffling Lists
+//* Exercise 2: Shuffling Lists
 int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
 {
     int size = numbers_size;
@@ -109,9 +109,28 @@ std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
 }
 
 // TODO Exercise 3: Summing Lists Iteratively
-int ListProcessor::sumIterative(int numbers[])
+int ListProcessor::sumIterative(int numbers[], int numbers_size = 0)
 {
-    return 0;
+    int accumulator = 0;
+    //numbers[0] = 69;
+    if (numbers_size == 0) return 0;
+    for (size_t i = 0; i < numbers_size; i++)
+    {
+        accumulator += numbers[i];
+    }
+
+    return accumulator;
+}
+int ListProcessor::sumIterative(std::vector<int> &numbers)
+{
+    int accumulator = 0;
+    if (numbers.size() == 0) return 0;
+    for (auto num : numbers)
+    {
+        accumulator += num;
+    }
+    //numbers[0] = 666;
+    return accumulator;
 }
 // TODO Exercise 4: Summing Lists Recursively
 int ListProcessor::sumRecursive(int numbers[])
