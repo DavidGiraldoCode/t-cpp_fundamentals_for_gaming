@@ -61,3 +61,9 @@ int *newSequence = listProcessor.arraySequence(1, 5);
 listProcessor.sumIterative(newSequence);
 //Now newSequence has a 69 in its first possition istead of a 1
 ```
+
+- To protect the array from being mutated, we can use `conts` infront of the argument. So `numbers` is now being passed as a constant reference
+
+```C++
+int ListProcessor::sumIterative(const std::vector<int> &numbers)
+```

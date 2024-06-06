@@ -157,7 +157,7 @@ int main()
 int a = 1;
 int * pa = &a; // to the pointer pa assign the "address-of" a;
 
-//This to lines di exactly the same
+//This to lines do exactly the same
 *(&a) = 2; //The value living "at" the "address-of" a assign 2
 *pa = 2; //The value living "at" the pointer pa assign 2
 ```
@@ -173,7 +173,7 @@ collection[0] = 2;
 delete [] collection; // Deletes the allocated data in the heap memory
 ```
 
-When creating dynamic array using heap memory, the `new` keyword returns the address of the first element of the array.
+When creating dynamic array using heap memory, the `new` keyword **returns the address** of *the first element of the array*.
 
 The **size of a raw array is complicated to determine at runtime** because they do not carry the information of their current size. Its need to be determine using `sizeof()` that returns the size of a given variables in bytes.
 

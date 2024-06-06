@@ -10,7 +10,7 @@ void ListProcessor::sayHi()
     std::cout << "ListProcessor ready" << "\n";
 }
 //* Exercise 1: Populating Lists
-int *ListProcessor::arraySequence(int from, int to)
+int *ListProcessor::arraySequence(const int from, const int to)
 {
     if (from == to)
         return new int[0]; // empty array
@@ -28,7 +28,7 @@ int *ListProcessor::arraySequence(int from, int to)
     return sequence;
 }
 
-std::vector<int> ListProcessor::vetorSequence(int from, int to)
+std::vector<int> ListProcessor::vetorSequence(const int from, const int to)
 {
     if (from == to)
         return {}; // empty array
@@ -47,7 +47,7 @@ std::vector<int> ListProcessor::vetorSequence(int from, int to)
 }
 
 //* Exercise 2: Shuffling Lists
-int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
+int *ListProcessor::shuffled(const int numbers[], const int numbers_size = 0)
 {
     int size = numbers_size;
     int index = 0;
@@ -79,7 +79,7 @@ int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
     return shuffledArray;
 }
 
-std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
+std::vector<int> ListProcessor::shuffled(const std::vector<int> &numbers)
 {
     std::vector<int> shuffledVector;
     std::unordered_map<int, int> randomRecods{};
@@ -109,7 +109,7 @@ std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
 }
 
 // TODO Exercise 3: Summing Lists Iteratively
-int ListProcessor::sumIterative(int numbers[], int numbers_size = 0)
+int ListProcessor::sumIterative(const int numbers[], int numbers_size = 0)
 {
     int accumulator = 0;
     //numbers[0] = 69;
@@ -121,7 +121,7 @@ int ListProcessor::sumIterative(int numbers[], int numbers_size = 0)
 
     return accumulator;
 }
-int ListProcessor::sumIterative(std::vector<int> &numbers)
+int ListProcessor::sumIterative(const std::vector<int> &numbers)
 {
     int accumulator = 0;
     if (numbers.size() == 0) return 0;
@@ -129,11 +129,11 @@ int ListProcessor::sumIterative(std::vector<int> &numbers)
     {
         accumulator += num;
     }
-    //numbers[0] = 666;
+
     return accumulator;
 }
 // TODO Exercise 4: Summing Lists Recursively
-int ListProcessor::sumRecursive(int numbers[])
+int ListProcessor::sumRecursive(const int numbers[], const int numbers_size)
 {
     return 0;
 }
