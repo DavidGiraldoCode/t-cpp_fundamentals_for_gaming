@@ -69,17 +69,11 @@ int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
         {
             randomRecords[randNum] = index;
             shuffledArray[index] = numbers[randNum];
-            t1 = std::chrono::high_resolution_clock::now();
-            timelapse = t1 - t0;
-            seed = timelapse.count();
             index++;
         }
-        else
-        {
-            t1 = std::chrono::high_resolution_clock::now();
-            timelapse = t1 - t0;
-            seed = timelapse.count();
-        }
+        t1 = std::chrono::high_resolution_clock::now();
+        timelapse = t1 - t0;
+        seed = timelapse.count();
     }
 
     return shuffledArray;
@@ -103,18 +97,12 @@ std::vector<int> ListProcessor::shuffled(std::vector<int> &numbers)
         if (randomRecods.count(randNum) == 0)
         {
             randomRecods[randNum] = interator;
-            // t2 = std::chrono::high_resolution_clock::now();
-            // timelapse = t1 - t2;
-            // seed = timelapse.count();
             shuffledVector.push_back(numbers[randNum]);
             interator++;
         }
-        // else
-        // {
         t2 = std::chrono::high_resolution_clock::now();
         timelapse = t1 - t2;
         seed = timelapse.count();
-        //}
     }
 
     return shuffledVector;

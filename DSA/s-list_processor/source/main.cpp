@@ -6,8 +6,8 @@ ListProcessor listProcessor = ListProcessor();
 
 int main(int argc, char *agrv[])
 {
-    int from = 10;
-    int to = 17;
+    int from = 20;
+    int to = 26;
     try // Wrap the listProcessor calls to catch any exception thrown.
     {
         int *newSequence = listProcessor.arraySequence(from, to);
