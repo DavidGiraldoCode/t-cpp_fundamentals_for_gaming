@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "chrono": "cpp",
         "__bit_reference": "cpp",
         "__bits": "cpp",
         "__config": "cpp",
@@ -62,11 +63,10 @@
         "vector": "cpp",
         "__nullptr": "cpp",
         "__string": "cpp",
-        "chrono": "cpp",
         "compare": "cpp",
         "concepts": "cpp",
-        "algorithm": "cpp",
         "numeric": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "algorithm": "cpp"
     }
 }

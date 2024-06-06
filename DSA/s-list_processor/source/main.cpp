@@ -6,13 +6,11 @@ ListProcessor listProcessor = ListProcessor();
 
 int main(int argc, char *agrv[])
 {
-    int from = 0;
-    int to = 7;
+    int from = 20;
+    int to = 26;
     try // Wrap the listProcessor calls to catch any exception thrown.
     {
         int *newSequence = listProcessor.arraySequence(from, to);
-        std::vector<int> newVector = listProcessor.vetorSequence(from, to);
-
         for (size_t i = 0; i < (to - from); i++)
         {
             std::cout << newSequence[i] << "\n";
@@ -25,10 +23,21 @@ int main(int argc, char *agrv[])
         }
 
         delete[] newSequence; // Deallocating heap memory
-        std::cout << "Vector: " << "\n";
+        delete[] shuffledSequence;
+
+        std::cout << "\n"
+                  << "Vector: " << "\n";
+
+        std::vector<int> newVector = listProcessor.vetorSequence(from, to);
         for (auto num : newVector)
         {
-            // std::cout << num << "\n";
+            std::cout << num << "\n";
+        }
+        std::cout << "Shuffle the list on a Vector: " << "\n";
+        std::vector<int> shuffledVector = listProcessor.shuffled(newVector);
+        for (auto num : shuffledVector)
+        {
+            std::cout << num << "\n";
         }
     }
     catch (std::exception &ex)

@@ -28,4 +28,17 @@
 - Exceptions can be handle with the standar exception classes `<stdexcept>`, in this case with the `logic_error` class, that offers a `what()` method to show the message of the exception.
 
 ## Exercise 2's Shuffling Lists, takeaways:
-- Seed is the starting point of a sequence of pseudorandom numbers.
+- The `int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)` method needed the `numbers_size` argument to now the size of the raw array explicitly.
+- The create random numbers in C++ we can use the `std::mt19937_64`, which creates an engine that given a seed (starting point of a sequence of pseudorandom numbers) can generate a random number. To control the range in which the random number in generated we use `std::uniform_int_distribution<T>` function object. 
+```C++
+    unsigned seed = 3353;
+    std::mt19937_64 random_engine(seed);
+    std::uniform_int_distribution<int> int_dis{0, 5};
+    int random = int_dis(random_engine);
+```
+- One seed can only generate one random number, we need to change the seed somehow. Measuring the time during runtime is a good option. The `std::chrono` class offers ways to do that.
+```C++
+    auto t1 = std::chrono::high_resolution_clock::now(); // To get the time at this moment
+    std::chrono::duration timelapse = t1 - t2; // To get the timelapse between to time points.
+    timelapse.count(); // To count how much time has passed.
+```
