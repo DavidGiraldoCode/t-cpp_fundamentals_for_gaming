@@ -26,3 +26,6 @@
 - The `range-for-statement` (`for (auto x : arraySequence)`) does not work with the raw array's pointer because it needs a range with a start and end. The pointer does not have that information.
 - The  `sizeof()` method will not work either because `sizeof(newSequence)` will return the size in bytes of a pointer and not that of the array.
 - Exceptions can be handle with the standar exception classes `<stdexcept>`, in this case with the `logic_error` class, that offers a `what()` method to show the message of the exception.
+
+## Exercise 2's Shuffling Lists, takeaways:
+- Seed is the starting point of a sequence of pseudorandom numbers.

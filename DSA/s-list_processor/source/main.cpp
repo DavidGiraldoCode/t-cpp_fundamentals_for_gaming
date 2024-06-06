@@ -1,3 +1,4 @@
+// g++ -std=c++20 main.cpp -o myProgram && ./myProgram
 #include <iostream>
 #include "ListProcessor.cpp"
 
@@ -16,11 +17,18 @@ int main(int argc, char *agrv[])
         {
             std::cout << newSequence[i] << "\n";
         }
+        std::cout << "Shuffle the list on a Raw Array: " << "\n";
+        int *shuffledSequence = listProcessor.shuffled(newSequence, (to - from));
+        for (size_t i = 0; i < (to - from); i++)
+        {
+            std::cout << shuffledSequence[i] << "\n";
+        }
+
         delete[] newSequence; // Deallocating heap memory
         std::cout << "Vector: " << "\n";
         for (auto num : newVector)
         {
-            std::cout << num << "\n";
+            // std::cout << num << "\n";
         }
     }
     catch (std::exception &ex)
