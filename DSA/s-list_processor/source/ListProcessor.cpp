@@ -108,12 +108,13 @@ std::vector<int> ListProcessor::shuffled(const std::vector<int> &numbers)
     return shuffledVector;
 }
 
-// TODO Exercise 3: Summing Lists Iteratively
+//* Exercise 3: Summing Lists Iteratively
 int ListProcessor::sumIterative(const int numbers[], int numbers_size = 0)
 {
     int accumulator = 0;
-    //numbers[0] = 69;
-    if (numbers_size == 0) return 0;
+    // numbers[0] = 69;
+    if (numbers_size == 0)
+        return 0;
     for (size_t i = 0; i < numbers_size; i++)
     {
         accumulator += numbers[i];
@@ -124,7 +125,8 @@ int ListProcessor::sumIterative(const int numbers[], int numbers_size = 0)
 int ListProcessor::sumIterative(const std::vector<int> &numbers)
 {
     int accumulator = 0;
-    if (numbers.size() == 0) return 0;
+    if (numbers.size() == 0)
+        return 0;
     for (auto num : numbers)
     {
         accumulator += num;
@@ -133,7 +135,35 @@ int ListProcessor::sumIterative(const std::vector<int> &numbers)
     return accumulator;
 }
 // TODO Exercise 4: Summing Lists Recursively
-int ListProcessor::sumRecursive(const int numbers[], const int numbers_size)
+int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
 {
-    return 0;
+    // Base cases
+    if (numbers_size == 0)
+        return 0;
+
+    if (numbers_size == 1)
+        return numbers[0];
+
+    // Recursive cases
+    int shrinkingArray[numbers_size - 1];
+    const int size = sizeof(shrinkingArray) / sizeof(int);
+    for (size_t i = 0; i < size; i++)
+    {
+        if (i == 0)
+            shrinkingArray[i] = numbers[i] + numbers[i + 1];
+        else
+            shrinkingArray[i] = numbers[i + 1];
+    }
+    return sumRecursive(shrinkingArray, size); //! IMPORTANT:
+}
+
+int ListProcessor::sumRecursive(const std::vector<int> &numbers)
+{
+    if (numbers.empty())
+        return 0;
+    if (numbers.size() == 1)
+        return numbers[0];
+
+    std::vector shrinkingArray(numbers.begin() + 1, numbers.end());
+    return numbers[0] + sumRecursive(shrinkingArray);
 }

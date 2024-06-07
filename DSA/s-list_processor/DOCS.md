@@ -67,3 +67,55 @@ listProcessor.sumIterative(newSequence);
 ```C++
 int ListProcessor::sumIterative(const std::vector<int> &numbers)
 ```
+
+## Exercise 4's Summing Lists Recursively, takeaways:
+
+- When using recurssion on a method with a return type different from void, we need to calle the recurssion on the return. Otherwize we are not passing any values.
+
+```C++
+int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
+{
+    // Base cases
+    // Recursive cases
+    return sumRecursive(shrinkingArray, size);
+}
+```
+
+- **🧠 REMEMBER!:** In C++, int my_array[n] or int \* my_array = new my_array[n] are addresses, pointing to the first position of the element inside the array. Since all the elements inside the array are linearly allocated, we only need to address the first one. This leads to important considerations and risks:
+
+1. Pointer Arithmetic: I can potentially add an int to the pointer of the array, such as `my_array + 1`, and thus change the position it now points to. Now, the pointer `my_array` will be pointing to `my_array[1]`.
+2. However, if we keep adding, the pointer could eventually exceed the bounds of the array, accessing memory that is not allowed to modify. This highlights the importance of being cautious when using raw array's pointer.
+   Heres an example of the recursive solution but with pointers (ChatGPT 2024):
+
+```C++
+int ListProcessor::sumRecursive(const int numbers[], int numbers_size) {
+    // Base cases
+    if (numbers_size == 0) {
+        return 0;
+    }
+    if (numbers_size == 1) {
+        return numbers[0];
+    }
+
+    // Recursive case
+    // Note: numbers + 1 is safe as long as numbers_size > 1
+    return numbers[0] + sumRecursive(numbers + 1, numbers_size - 1);
+}
+```
+
+- When using `std::vector` unsing `.erase()` can be expensive because it represents re-arranging all the indexes inside the vector.
+- The original approach I had passed the vector as value, coping on every recursive call. To avoid the overhead of copying, we can use references. BUT, this makes it necessary to create an internal vector.
+
+```C++
+// passed by copy, create overhead
+int sum = numbers[(numbers.size() - 1)];
+numbers.erase(numbers.begin() + (numbers.size() - 1));
+return sum + sumRecursive(numbers);
+```
+
+- The [`std::vector` constructor](https://cplusplus.com/reference/vector/vector/vector/) offers a way to create a new vector passing a range `[from, to)` of iterrator as arguments. Meaning, we can pass `my_vector.begin()` and `my_vector.end()` to create a new vector.
+
+```C++
+// Here the shrinkingArray starts from the 2nd possition of the numbers vector.
+std::vector shrinkingArray(numbers.begin() + 1, numbers.end());
+```
