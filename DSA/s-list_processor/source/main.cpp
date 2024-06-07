@@ -6,8 +6,8 @@ ListProcessor listProcessor = ListProcessor();
 
 int main(int argc, char *agrv[])
 {
-    int from = 0;
-    int to = 4;
+    int from = 2;
+    int to = 6;
     try // Wrap the listProcessor calls to catch any exception thrown.
     {
         int *newSequence = listProcessor.arraySequence(from, to);
@@ -22,13 +22,15 @@ int main(int argc, char *agrv[])
             std::cout << shuffledSequence[i] << "\n";
         }
         std::cout << "The Iterative Sum of the Raw Array is: " << listProcessor.sumIterative(newSequence, (to - from)) << "\n";
-        for (size_t i = 0; i < (to - from); i++)
-        {
-            std::cout << newSequence[i] << "\n";
-        }
+        std::cout << "The Recursively Sum of the Raw Array is: " << listProcessor.sumRecursive(newSequence, (to - from)) << "\n";
+        // for (size_t i = 0; i < (to - from); i++)
+        // {
+        //     std::cout << newSequence[i] << "\n";
+        // }
+
         delete[] newSequence; // Deallocating heap memory
         delete[] shuffledSequence;
-
+        //========================================================================== Vectors
         std::cout << "\n"
                   << "Vector: " << "\n";
 

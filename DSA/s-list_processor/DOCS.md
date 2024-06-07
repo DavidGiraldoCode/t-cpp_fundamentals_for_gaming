@@ -67,3 +67,16 @@ listProcessor.sumIterative(newSequence);
 ```C++
 int ListProcessor::sumIterative(const std::vector<int> &numbers)
 ```
+
+## Exercise 4's Summing Lists Recursively, takeaways:
+
+- When using recurssion on a method with a return type different from void, we need to calle the recurssion on the return. Otherwize we are not passing any values.
+
+```C++
+int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
+{
+    // Base cases
+    // Recursive cases
+    return sumRecursive(shrinkingArray, size);
+}
+```
