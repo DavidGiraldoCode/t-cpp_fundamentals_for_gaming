@@ -137,15 +137,15 @@ int ListProcessor::sumIterative(const std::vector<int> &numbers)
 // TODO Exercise 4: Summing Lists Recursively
 int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
 {
-    //Base cases
+    // Base cases
     if (numbers_size == 0)
         return 0;
 
     if (numbers_size == 1)
         return numbers[0];
 
-    //Recursive cases
-    int shrinkingArray[numbers_size - 1];                  
+    // Recursive cases
+    int shrinkingArray[numbers_size - 1];
     const int size = sizeof(shrinkingArray) / sizeof(int);
     for (size_t i = 0; i < size; i++)
     {
@@ -155,4 +155,15 @@ int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
             shrinkingArray[i] = numbers[i + 1];
     }
     return sumRecursive(shrinkingArray, size); //! IMPORTANT:
+}
+
+int ListProcessor::sumRecursive(const std::vector<int> &numbers)
+{
+    if (numbers.empty())
+        return 0;
+    if (numbers.size() == 1)
+        return numbers[0];
+
+    std::vector shrinkingArray(numbers.begin() + 1, numbers.end());
+    return numbers[0] + sumRecursive(shrinkingArray);
 }

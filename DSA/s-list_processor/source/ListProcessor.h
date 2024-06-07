@@ -15,4 +15,5 @@ public:
     int sumIterative(const int numbers[], const int numbers_size);
     int sumIterative(const std::vector<int> &numbers);
     int sumRecursive(const int numbers[], const int numbers_size);
+    int sumRecursive(const std::vector<int> &numbers);
 };

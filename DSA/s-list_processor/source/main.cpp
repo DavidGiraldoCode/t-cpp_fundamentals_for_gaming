@@ -46,6 +46,8 @@ int main(int argc, char *agrv[])
             std::cout << num << "\n";
         }
         std::cout << "The Iterative Sum of the Vector Array is: " << listProcessor.sumIterative(newVector) << "\n";
+        std::cout << "The Recursive Sum of the Vector Array is: " << listProcessor.sumRecursive(newVector) << "\n";
+        
         for (auto num : newVector)
         {
             std::cout << num << "\n";
