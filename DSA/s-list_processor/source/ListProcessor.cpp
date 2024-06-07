@@ -9,8 +9,8 @@ void ListProcessor::sayHi()
 {
     std::cout << "ListProcessor ready" << "\n";
 }
-// TODO Exercise 1: Populating Lists
-int *ListProcessor::arraySequence(int from, int to)
+//* Exercise 1: Populating Lists
+int *ListProcessor::arraySequence(const int from, const int to)
 {
     if (from == to)
         return new int[0]; // empty array
@@ -28,7 +28,7 @@ int *ListProcessor::arraySequence(int from, int to)
     return sequence;
 }
 
-std::vector<int> ListProcessor::vetorSequence(int from, int to)
+std::vector<int> ListProcessor::vetorSequence(const int from, const int to)
 {
     if (from == to)
         return {}; // empty array
@@ -46,8 +46,8 @@ std::vector<int> ListProcessor::vetorSequence(int from, int to)
     return sequence; //? Does it get pass as value or reference?
 }
 
-// TODO Exercise 2: Shuffling Lists
-int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
+//* Exercise 2: Shuffling Lists
+int *ListProcessor::shuffled(const int numbers[], const int numbers_size = 0)
 {
     int size = numbers_size;
     int index = 0;
@@ -69,29 +69,101 @@ int *ListProcessor::shuffled(int numbers[], int numbers_size = 0)
         {
             randomRecords[randNum] = index;
             shuffledArray[index] = numbers[randNum];
-            t1 = std::chrono::high_resolution_clock::now();
-            timelapse = t1 - t0;
-            seed = timelapse.count();
             index++;
         }
-        else
-        {
-            t1 = std::chrono::high_resolution_clock::now();
-            timelapse = t1 - t0;
-            seed = timelapse.count();
-        }
+        t1 = std::chrono::high_resolution_clock::now();
+        timelapse = t1 - t0;
+        seed = timelapse.count();
     }
 
     return shuffledArray;
 }
 
-// TODO Exercise 3: Summing Lists Iteratively
-int ListProcessor::sumIterative(int numbers[])
+std::vector<int> ListProcessor::shuffled(const std::vector<int> &numbers)
 {
-    return 0;
+    std::vector<int> shuffledVector;
+    std::unordered_map<int, int> randomRecods{};
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration timelapse = t1 - t2;
+    unsigned seed = timelapse.count();
+    std::uniform_int_distribution<int> int_dis{0, (int)(numbers.size() - 1)};
+    int interator = 0;
+
+    while (interator < numbers.size())
+    {
+        std::mt19937_64 random_engine(seed);
+        int randNum = int_dis(random_engine);
+        if (randomRecods.count(randNum) == 0)
+        {
+            randomRecods[randNum] = interator;
+            shuffledVector.push_back(numbers[randNum]);
+            interator++;
+        }
+        t2 = std::chrono::high_resolution_clock::now();
+        timelapse = t1 - t2;
+        seed = timelapse.count();
+    }
+
+    return shuffledVector;
+}
+
+//* Exercise 3: Summing Lists Iteratively
+int ListProcessor::sumIterative(const int numbers[], int numbers_size = 0)
+{
+    int accumulator = 0;
+    // numbers[0] = 69;
+    if (numbers_size == 0)
+        return 0;
+    for (size_t i = 0; i < numbers_size; i++)
+    {
+        accumulator += numbers[i];
+    }
+
+    return accumulator;
+}
+int ListProcessor::sumIterative(const std::vector<int> &numbers)
+{
+    int accumulator = 0;
+    if (numbers.size() == 0)
+        return 0;
+    for (auto num : numbers)
+    {
+        accumulator += num;
+    }
+
+    return accumulator;
 }
 // TODO Exercise 4: Summing Lists Recursively
-int ListProcessor::sumRecursive(int numbers[])
+int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
 {
-    return 0;
+    // Base cases
+    if (numbers_size == 0)
+        return 0;
+
+    if (numbers_size == 1)
+        return numbers[0];
+
+    // Recursive cases
+    int shrinkingArray[numbers_size - 1];
+    const int size = sizeof(shrinkingArray) / sizeof(int);
+    for (size_t i = 0; i < size; i++)
+    {
+        if (i == 0)
+            shrinkingArray[i] = numbers[i] + numbers[i + 1];
+        else
+            shrinkingArray[i] = numbers[i + 1];
+    }
+    return sumRecursive(shrinkingArray, size); //! IMPORTANT:
+}
+
+int ListProcessor::sumRecursive(const std::vector<int> &numbers)
+{
+    if (numbers.empty())
+        return 0;
+    if (numbers.size() == 1)
+        return numbers[0];
+
+    std::vector shrinkingArray(numbers.begin() + 1, numbers.end());
+    return numbers[0] + sumRecursive(shrinkingArray);
 }
