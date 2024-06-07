@@ -80,3 +80,25 @@ int ListProcessor::sumRecursive(const int numbers[], const int numbers_size = 0)
     return sumRecursive(shrinkingArray, size);
 }
 ```
+
+- **🧠 REMEMBER!:** In C++, int my_array[n] or int * my_array = new my_array[n] are addresses, pointing to the first position of the element inside the array. Since all the elements inside the array are linearly allocated, we only need to address the first one. This leads to important considerations and risks:
+> Pointer Arithmetic: I can potentially add an int to the pointer of the array, such as `my_array + 1`, and thus change the position it now points to. Now, the pointer `my_array` will be pointing to `my_array[1]`.
+> However, if we keep adding, the pointer could eventually exceed the bounds of the array, accessing memory that is not allowed to modify. This highlights the importance of being cautious when using raw array's pointer.
+Heres an example of the recursive solution but with pointers (ChatGPT 2024):
+
+```C++
+int ListProcessor::sumRecursive(const int numbers[], int numbers_size) {
+    // Base cases
+    if (numbers_size == 0) {
+        return 0;
+    }
+    if (numbers_size == 1) {
+        return numbers[0];
+    }
+
+    // Recursive case
+    // Note: numbers + 1 is safe as long as numbers_size > 1
+    return numbers[0] + sumRecursive(numbers + 1, numbers_size - 1);
+}
+```
+
