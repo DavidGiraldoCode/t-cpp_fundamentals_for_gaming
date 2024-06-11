@@ -1,6 +1,7 @@
 // g++ -std=c++20 *.cpp -o myProgram && ./myProgram
 #include <iostream>
 #include "EnemyShip.h"
+#include "EnemyProcessor.h"
 
 //TODO use Resource Acquisition is Initialization (RAII) pattern 
 

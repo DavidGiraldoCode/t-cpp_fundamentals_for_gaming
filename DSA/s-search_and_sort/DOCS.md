@@ -25,3 +25,8 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 - Provide only virtual method that described desirable behavior.
 - It does not have data memebers.
 - It provides a virtual destructor. 
+
+
+### Exercise 2: Sorting - Takeaways
+- I implemented an abstract base class to process the enemies. The derived classes implement different sorting algorithms.
+- Linear pedendencies could happen when using containers that refere to classes they contain. Always use `#pragma once` to avoid this type of conflicts.
