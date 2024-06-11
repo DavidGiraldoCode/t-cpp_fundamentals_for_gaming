@@ -8,6 +8,11 @@ EnemyShip::EnemyShip(int height, int width, int depth)
     std::cout << "EnemyShip ready" << "\n";
 }
 
+EnemyShip::~EnemyShip()
+{
+    std::cout << "Bye!" << "\n";
+}
+
 const int EnemyShip::volume()
 {
     return m_height * m_width * m_depth;
@@ -28,7 +33,7 @@ const int EnemyShip::getDepth()
     return m_depth;
 }
 
-bool EnemyShip::equals(EnemyShip another)
+bool EnemyShip::equals(EnemyShip &another)
 {
     // TODO implement based on the Java file.
     return true;
@@ -41,4 +46,9 @@ int EnemyShip::hashCode()
     result = 31 * result + m_width;
     result = 31 * result + m_depth;
     return result;
+}
+
+int EnemyShip::compareTo(EnemyShip &another)
+{
+    return 0;
 }
