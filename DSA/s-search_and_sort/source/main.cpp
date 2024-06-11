@@ -6,7 +6,10 @@
 
 int main(int argc, char * argv[])
 {
-    EnemyShip enemy = EnemyShip(4, 6, 10);
-    std::cout << enemy.volume() << "\n";
+    EnemyShip enemyOne = EnemyShip(4, 6, 10);
+    EnemyShip enemyTwo = EnemyShip(3, 2, 5);
+    std::cout << enemyOne.volume() << "\n";
+    std::cout << enemyTwo.volume() << "\n";
+    std::cout << "enemyOne is: " << enemyOne.compareTo(enemyTwo) << " than enemyTwo \n";
     return 0;
 }

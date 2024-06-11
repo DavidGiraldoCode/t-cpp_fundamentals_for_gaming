@@ -50,5 +50,12 @@ int EnemyShip::hashCode()
 
 int EnemyShip::compareTo(EnemyShip &another)
 {
+    if (this->volume() > another.volume())
+        return 1;
+    else if (this->volume() < another.volume())
+        return -1;
+    else if (this->volume() == another.volume())
+        return 0;
+
     return 0;
 }
