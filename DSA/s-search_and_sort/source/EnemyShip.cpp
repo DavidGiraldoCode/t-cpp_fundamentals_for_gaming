@@ -8,6 +8,13 @@ EnemyShip::EnemyShip(int height, int width, int depth)
     std::cout << "EnemyShip ready" << "\n";
 }
 
+EnemyShip::EnemyShip(EnemyShip &another)
+{
+    m_height = another.getHeight();
+    m_width = another.getWidth();
+    m_depth = another.getDepth();
+}
+
 EnemyShip::~EnemyShip()
 {
     std::cout << "Bye!" << "\n";
@@ -50,12 +57,7 @@ int EnemyShip::hashCode()
 
 int EnemyShip::compareTo(EnemyShip &another)
 {
-    if (this->volume() > another.volume())
-        return 1;
-    else if (this->volume() < another.volume())
-        return -1;
-    else if (this->volume() == another.volume())
-        return 0;
-
-    return 0;
+    if (volume() < another.volume()) return -1;
+    else if (volume() == another.volume()) return 0;
+    else return 1;
 }

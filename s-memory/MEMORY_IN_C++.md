@@ -1,14 +1,15 @@
 # Memory in C++
+
 ## Overview
 
 C++ allows developers to get access to some location in RAM during the compilation process and RunTime. There are two types of memory we can manipulate: **stack memory** and **heap memory.** Both types store the data in the computer, and we can request it and change it, but there are some characteristics that we need to consider because they differ in size, allocation, speed and syntax.
 
 ## Stack vs Heap memory
 
-|  Type | What stores? | Size & Data structure | Usage |
-| --- | --- | --- | --- |
-| Stack | Everything related to the program execution at compile time: OS specifics, Primitives, Functions calls, Pointers (NOT necessarily  data at the pointer). | Static memory (megabytes), and when it rans out, yields: Stack overflow. It is fast, but limited. Has a “first in, last out” structure. It is stored altogether linearly in memory. And gets deallocated automatically. | To allocate fixed-sized memory for local variables that are known at compile time. Local variables without the new keyword get allocated by default in the stack memory. |
-| Heap | Anything that the developer determines both at compile time and runtime. The actual data at a given pointer. | Dynamic memory (available RAM). Its is slow, but larger, complicated & expensive. It is stored in a randomly available  space. It could be far away from the stack memory addresses. Does not get deallocated, needs to be deleted manually. | To allocate dynamic-sized memory (during compile and runtime), useful for larger or variable-sized data. * & new indicates that is using pointers, then the size int ,float, MyClass of the memory to allocate. The memory is accessed via pointers. Once we finished using the data, we use delete to free the space in RAM. |
+| Type  | What stores?                                                                                                                                            | Size & Data structure                                                                                                                                                                                                                       | Usage                                                                                                                                                                                                                                                                                                                          |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Stack | Everything related to the program execution at compile time: OS specifics, Primitives, Functions calls, Pointers (NOT necessarily data at the pointer). | Static memory (megabytes), and when it rans out, yields: Stack overflow. It is fast, but limited. Has a “first in, last out” structure. It is stored altogether linearly in memory. And gets deallocated automatically.                     | To allocate fixed-sized memory for local variables that are known at compile time. Local variables without the new keyword get allocated by default in the stack memory.                                                                                                                                                       |
+| Heap  | Anything that the developer determines both at compile time and runtime. The actual data at a given pointer.                                            | Dynamic memory (available RAM). Its is slow, but larger, complicated & expensive. It is stored in a randomly available space. It could be far away from the stack memory addresses. Does not get deallocated, needs to be deleted manually. | To allocate dynamic-sized memory (during compile and runtime), useful for larger or variable-sized data. \* & new indicates that is using pointers, then the size int ,float, MyClass of the memory to allocate. The memory is accessed via pointers. Once we finished using the data, we use delete to free the space in RAM. |
 
 ```cpp
 int level = 1; // stack memory
@@ -30,9 +31,9 @@ p = &i; // & = address of
 *p = 7; // * = dereference, or value at address
 ```
 
-***⚠️ UnInitialised values in C++ are unsafe,** because the stack will assigned to that variable whatever is on RAM at that time (garbage values) and relys on future code to set them.
+**\*⚠️ UnInitialised values in C++ are unsafe,** because the stack will assigned to that variable whatever is on RAM at that time (garbage values) and relys on future code to set them.
 
-Always prefer variables explicit initialization over assignment  to avoid undefined behavior.
+Always prefer variables explicit initialization over assignment to avoid undefined behavior.
 
 ### Proper usage of pointers
 
@@ -42,54 +43,55 @@ int* ptr = new int; // Allocation
 delete ptr; // Deallocation
 ```
 
-The `new` keyword allocates (heap) memory dynamically, by telling the system to look for **available continuous memory (row)** where it can save data, and returns the pointer to that space in memory. The `*`  works as an “at” that reads: “The data that is ***at*** this location, assign this value”. On the other hand, `delete`  deallocates dynamic memory, preventing leaks.
+The `new` keyword allocates (heap) memory dynamically, by telling the system to look for **available continuous memory (row)** where it can save data, and returns the pointer to that space in memory. The `*` works as an “at” that reads: “The data that is **_at_** this location, assign this value”. On the other hand, `delete` deallocates dynamic memory, preventing leaks.
 
-Both `new` and `delete`  are expensive because ran multiple operation under the hood to allocate and deallocate continuous available space in RAM, (it might need to re-allocate other things).
+Both `new` and `delete` are expensive because ran multiple operation under the hood to allocate and deallocate continuous available space in RAM, (it might need to re-allocate other things).
 
 ## What are Memory Leaks?
 
-Memory leaks is a consequence of not deallocating dynamically allocated memory. Over time, the program will runs out of RAM until it crashes.  For instance, managing heap memory manually with **`new`** and **`delete`** increases the risk of memory leaks.
+Memory leaks is a consequence of not deallocating dynamically allocated memory. Over time, the program will runs out of RAM until it crashes. For instance, managing heap memory manually with **`new`** and **`delete`** increases the risk of memory leaks.
 
 ## When and Why use pointers?
 
-1. **OOP inheritance:**  Parents and children may be of different size, and remember that is we use the stack memory, we need predetermine and known size at compile time.
-    1. Recall, In object-oriented programming (OOP), inheritance allows one class (the child class) to inherit properties and behaviours from another class (the parent class). When you use inheritance, you can create a hierarchy of classes where child classes inherit attributes and methods from parent classes. Polymorphism allows objects of different classes to be treated as objects of a common superclass.
-    
-    ```cpp
-    Parent * pointerParent = new Child(); 
-    // Recall that new returns a pointer to the heap memory 
-    // where the Child type is allocated
-    ```
-    
+1. **OOP inheritance:** Parents and children may be of different size, and remember that is we use the stack memory, we need predetermine and known size at compile time.
+
+   1. Recall, In object-oriented programming (OOP), inheritance allows one class (the child class) to inherit properties and behaviours from another class (the parent class). When you use inheritance, you can create a hierarchy of classes where child classes inherit attributes and methods from parent classes. Polymorphism allows objects of different classes to be treated as objects of a common superclass.
+
+   ```cpp
+   Parent * pointerParent = new Child();
+   // Recall that new returns a pointer to the heap memory
+   // where the Child type is allocated
+   ```
+
 2. **To modify a variable’s value inside a function:** When we pass arguments to a function, a copy of that variable’s value gets passed into the function. NOT the actual variable. So we pass instead the pointer of the data we want to change, and dereference the pointer to modify the value. We use the `&` ”address(in RAM)-of” operator to pass the pointer to the function.
-    
-    ```cpp
-    #include <iostream>
-    
-    // Function that increments the value of an integer using a pointer
-    void increment(int* numPtr) {
-        (*numPtr)++; // Dereference the pointer to access and modify the value
-    }
-    
-    int main() {
-        int num = 5;
-        std::cout << "Before increment: " << num << std::endl;
-    
-        // Pass the address of num to the increment function
-        increment(&num);
-    
-        std::cout << "After increment: " << num << std::endl;
-        return 0;
-    }
-    ```
-    
+
+   ```cpp
+   #include <iostream>
+
+   // Function that increments the value of an integer using a pointer
+   void increment(int* numPtr) {
+       (*numPtr)++; // Dereference the pointer to access and modify the value
+   }
+
+   int main() {
+       int num = 5;
+       std::cout << "Before increment: " << num << std::endl;
+
+       // Pass the address of num to the increment function
+       increment(&num);
+
+       std::cout << "After increment: " << num << std::endl;
+       return 0;
+   }
+   ```
+
 3. **Manipulate large data:** Larger pieces of data (gigabytes) cannot be on the stack memory. They need to go on the heap memory, so we need pointer to get it.
 
 ## What are references `&` in C++?
 
 They are like “safe pointers”, where we use the “address(in RAM)-of” operator `&` . And this is telling the address of EXISTING data, it cannot point to nothing or nullPointer. So it is preferable to use references instead of pointers.
 
-By default, C++ passes variables by value (PBV), and is expensive is the variable holds large amounts of data. 
+By default, C++ passes variables by value (PBV), and is expensive is the variable holds large amounts of data.
 
 ```cpp
 //Tnnify example by Professor Dave Churchill, modified by me
@@ -116,14 +118,14 @@ int main()
     int *ptr_i = &i;
     tennifyByPointer(ptr_i);
     std::cout << i << "\n";
-    
+
     // Test with a null pointer
     int *null_ptr = nullptr;
     tennifyByPointer(null_ptr); // This will print an error message
-    
+
     twentifyByReference(i);
      std::cout << i << "\n";
-    
+
     return 0;
 }
 ```
@@ -138,7 +140,7 @@ void machineLearn(const BigData & d){/* Do something */}
 int main()
 {
 	BigData data();
-	machineLearn(data); 
+	machineLearn(data);
 	// we passed the data object for learning, but not to mutate it.
 }
 ```
@@ -173,7 +175,7 @@ collection[0] = 2;
 delete [] collection; // Deletes the allocated data in the heap memory
 ```
 
-When creating dynamic array using heap memory, the `new` keyword **returns the address** of *the first element of the array*.
+When creating dynamic array using heap memory, the `new` keyword **returns the address** of _the first element of the array_.
 
 The **size of a raw array is complicated to determine at runtime** because they do not carry the information of their current size. Its need to be determine using `sizeof()` that returns the size of a given variables in bytes.
 
@@ -200,7 +202,7 @@ public:
 		, m_posX(posX)
 		, m_posY(posY)
 	{
-		
+
 	}
 }
 
@@ -210,3 +212,21 @@ Alien * badAlien = new Alien(args); // Allocate the object on heap memory
 goodAlien; //--> Will still have some attributes in the heap memory
 delete badAlien; // Deletes the allocated data in the heap memory
 ```
+
+### Accessing members with `*` and `&`
+
+When using pointers as arguments, we can access the memebers of what they are pointing by the **member-of-pointer operator** `->` operator. Whereas with the references we can use the dot `.` operator.
+
+```C++
+void unalivePlayer(Player* myPlayer)
+{
+myPlayer->is_alive = false;
+}
+
+void unalivePlayer(Player& myPlayer)
+{
+myPlayer.is_alive = true;
+}
+```
+
+The **member-of-pointer operator** `->` operator does two things: dereferences the pointer, and accesses to the object's members in one go.
