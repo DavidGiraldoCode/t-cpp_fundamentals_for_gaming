@@ -37,6 +37,7 @@ EnemyShip* enemyRAWFleetA = new EnemyShip[FLEET_SIZE]{{4, 6, 10},{4, 6, 10}};
 EnemyShip* enemyRAWFleetB = new EnemyShip[FLEET_SIZE];
 enemyRAWFleetB[0] = new EnemyShip(4, 6, 10);
 ```
+- Recall that the `new` keyword create a pointer to dynamically allocated heap memory. After using the resources in the RAW array, always deallocate it with `delete [] NameOfTheArray;`
 - Object without default / copy constructors will yield an error if you try to store them into a `std::vector`. The standar `vector<T>` container needs a copy constructor that takes a costant reference to another object like so: 
 ```C++
 EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()){}
