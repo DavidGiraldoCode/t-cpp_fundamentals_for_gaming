@@ -35,4 +35,8 @@ SpaceShip::~SpaceShip()
 
 ### Functions Const correctness
 
-For every function that is not mutating a class, should be marked as a const. In this way, is I have an instance of the class that is a constant variable, I will be able to use the functions that do not modify the class.
+For every function that is not mutating a class, should be marked as a const. In this way, if I have an instance of the class that is a constant variable, I will be able to use the functions that do not modify the class.
+The `conts` at the end of the function means that is wont modify any data of the class
+```C++
+void print() const
+```

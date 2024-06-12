@@ -11,12 +11,12 @@ class EnemyShip : public Comparable<EnemyShip>
 
     public:
         EnemyShip(int height, int width, int depth);
-        EnemyShip(EnemyShip &another);
+        EnemyShip(const EnemyShip &another);
         ~EnemyShip();
-        const int volume();
-        const int getHeight();
-        const int getWidth();
-        const int getDepth();
+        int volume() const;
+        int getHeight() const;
+        int getWidth() const;
+        int getDepth() const;
         //TODO research about how the homologate the @Override from Java
         bool equals(EnemyShip &another);
         int hashCode(); 

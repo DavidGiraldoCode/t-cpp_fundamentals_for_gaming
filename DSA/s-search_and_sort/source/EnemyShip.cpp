@@ -8,34 +8,31 @@ EnemyShip::EnemyShip(int height, int width, int depth)
     std::cout << "EnemyShip ready" << "\n";
 }
 
-EnemyShip::EnemyShip(EnemyShip &another)
-{
-    m_height = another.getHeight();
-    m_width = another.getWidth();
-    m_depth = another.getDepth();
-}
+EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()),
+                                               m_width(other.getWidth()),
+                                               m_depth(other.getDepth()) {}
 
 EnemyShip::~EnemyShip()
 {
-    std::cout << "Bye!" << "\n";
+    // std::cout << "Bye!" << "\n";
 }
 
-const int EnemyShip::volume()
+int EnemyShip::volume() const
 {
     return m_height * m_width * m_depth;
 }
 
-const int EnemyShip::getHeight()
+int EnemyShip::getHeight() const
 {
     return m_height;
 }
 
-const int EnemyShip::getWidth()
+int EnemyShip::getWidth() const
 {
     return m_width;
 }
 
-const int EnemyShip::getDepth()
+int EnemyShip::getDepth() const
 {
     return m_depth;
 }
@@ -57,7 +54,10 @@ int EnemyShip::hashCode()
 
 int EnemyShip::compareTo(EnemyShip &another)
 {
-    if (volume() < another.volume()) return -1;
-    else if (volume() == another.volume()) return 0;
-    else return 1;
+    if (volume() < another.volume())
+        return -1;
+    else if (volume() == another.volume())
+        return 0;
+    else
+        return 1;
 }
