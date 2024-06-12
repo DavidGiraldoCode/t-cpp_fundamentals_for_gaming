@@ -107,8 +107,32 @@ void insertionSorting()
 
 int main(int argc, char *argv[])
 {
-    //selectionSorting();
-    //insertionSorting();
+    // selectionSorting();
+    // insertionSorting();
+    const size_t FLEET_SIZE = 6;
+    EnemyShip *enemyRAWFleet = new EnemyShip[FLEET_SIZE]{
+        {2, 3, 8},
+        {1, 3, 4},
+        {2, 7, 4},
+        {8, 3, 8},
+        {1, 3, 4},
+        {1, 6, 14}
+
+    };
+    std::vector<EnemyShip> enemyFleet = {};
+    enemyFleet.push_back(EnemyShip(2, 3, 8));
+    enemyFleet.push_back(EnemyShip(1, 3, 4));
+    enemyFleet.push_back(EnemyShip(2, 7, 8));
+    enemyFleet.push_back(EnemyShip(1, 3, 4));
+    enemyFleet.push_back(EnemyShip(1, 6, 14));
+
+    EnemyShip enemy = EnemyShip(2, 7, 4);
+
+    EnemyInsertionProcessor eInsertionProcessor = EnemyInsertionProcessor();
+    std::cout << "Testing precense in RAW array: \n";
+    std::cout << eInsertionProcessor.sequentialSearch(enemyRAWFleet, FLEET_SIZE, enemy) << "\n";
+    std::cout << "Testing precense in vector: \n";
+    std::cout << eInsertionProcessor.sequentialSearch(enemyFleet, enemy) << "\n";
 
     return 0;
 }

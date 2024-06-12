@@ -44,3 +44,7 @@ EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()){}
 //Moreover, the functions to retunr the memeber should be const
 int getHeight() const {...}
 ```
+
+### Exercise 3: Sequential Search - Takeaways
+- Brute force approach, fairly simply and straightforward.
+- I declare and defined the two overloaded methods on the base class, and either of the derived classes can use it.
