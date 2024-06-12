@@ -4,7 +4,7 @@ EnemySelectionProcessor::EnemySelectionProcessor() {}
 
 EnemySelectionProcessor::~EnemySelectionProcessor() 
 {
-    std::cout << "EnemySelectionProcessor Destroied \n";
+    std::cout << "EnemySelectionProcessor Destroyed \n";
 }
 
 void EnemySelectionProcessor::sort(EnemyShip* enemiesArray, size_t size) 
