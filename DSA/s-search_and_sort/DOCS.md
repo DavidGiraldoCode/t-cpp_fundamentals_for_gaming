@@ -30,3 +30,33 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ### Exercise 2: Sorting - Takeaways
 - I implemented an abstract base class to process the enemies. The derived classes implement different sorting algorithms.
 - Linear pedendencies could happen when using containers that refere to classes they contain. Always use `#pragma once` to avoid this type of conflicts.
+- With raw arrays, one can create array of user-defined objects and instantiate them in different ways
+```C++
+EnemyShip* enemyRAWFleetA = new EnemyShip[FLEET_SIZE]{{4, 6, 10},{4, 6, 10}};
+
+EnemyShip* enemyRAWFleetB = new EnemyShip[FLEET_SIZE];
+enemyRAWFleetB[0] = new EnemyShip(4, 6, 10);
+```
+- Recall that the `new` keyword create a pointer to dynamically allocated heap memory. After using the resources in the RAW array, always deallocate it with `delete [] NameOfTheArray;`
+- Object without default / copy constructors will yield an error if you try to store them into a `std::vector`. The standar `vector<T>` container needs a copy constructor that takes a costant reference to another object like so: 
+```C++
+EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()){}
+//Moreover, the functions to retunr the memeber should be const
+int getHeight() const {...}
+```
+
+### Exercise 3: Sequential Search - Takeaways
+- Brute force approach, fairly simply and straightforward.
+- I declare and defined the two overloaded methods on the base class, and either of the derived classes can use it.
+
+### Exercise 4: Binary Search
+- For the divide and conquer strategy, I defined three utility varaibles, `cursor` as index to move around, `min` and `max` as the dynamic ranges.
+- The `while` loop must consider a range of size 1 to cover cases in which the elements are on the extrem edges, like so:
+```C++
+target = 12;
+array[0] = 12;
+
+while ((max - min) >= 0) {...}// This loop will stop when the range is 1 -> 1 - 0
+while ((max - min) > 0) {...}// This loop will stop when the range is 2 -> 2 - 1
+```
+- The `cursor` should be offseted by the min range like so `cursor = min + (int)((max - min) / 2);`

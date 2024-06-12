@@ -7,6 +7,6 @@ public:
     EnemySelectionProcessor();
     ~EnemySelectionProcessor();
 
-    virtual void sort(int * enemiesArray[]) override;
-    virtual void sort(std::vector<EnemyShip> enemiesList) override;
+    virtual void sort(EnemyShip* enemiesArray, size_t size) override;
+    virtual void sort(std::vector<EnemyShip>& enemiesList) override;
 };

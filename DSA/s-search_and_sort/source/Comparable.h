@@ -1,7 +1,7 @@
 #pragma once
 template <typename T>
 //* pure-virtual class
-class Comparable
+class Comparable //Interface
 {
 public:
     virtual ~Comparable() = default;
