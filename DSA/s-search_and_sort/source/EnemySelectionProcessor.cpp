@@ -7,7 +7,8 @@ EnemySelectionProcessor::~EnemySelectionProcessor()
     std::cout << "EnemySelectionProcessor Destroied \n";
 }
 
-void EnemySelectionProcessor::sort(EnemyShip* enemiesArray, size_t size) {
+void EnemySelectionProcessor::sort(EnemyShip* enemiesArray, size_t size) 
+{
     // TODO Implement Selection Sort for dynamically allocated array
     /**
      * Go through the array, starting with the assumption that the first element is the smallest
@@ -34,7 +35,8 @@ void EnemySelectionProcessor::sort(EnemyShip* enemiesArray, size_t size) {
 
 };
 
-void EnemySelectionProcessor::sort(std::vector<EnemyShip>& enemiesList) {
+void EnemySelectionProcessor::sort(std::vector<EnemyShip>& enemiesList) 
+{
     int smallestPosition = 0;
     for (size_t i = 0; i < enemiesList.size(); i ++)
     {

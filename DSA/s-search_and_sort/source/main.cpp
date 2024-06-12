@@ -3,6 +3,7 @@
 #include "EnemyShip.h"
 #include "EnemyProcessor.h"
 #include "EnemySelectionProcessor.h"
+#include "EnemyInsertionProcessor.h"
 
 // TODO use Resource Acquisition is Initialization (RAII) pattern
 
@@ -57,7 +58,53 @@ void sorting()
 int main(int argc, char *argv[])
 {
 
-    sorting();
-    
+    // sorting();
+    EnemyInsertionProcessor eInsertionProcessor = EnemyInsertionProcessor();
+    const size_t FLEET_SIZE = 9;
+    EnemyShip *enemyRAWFleet = new EnemyShip[FLEET_SIZE]{
+        {2, 3, 4},
+        {7, 3, 4},
+        {2, 7, 7},
+        {2, 3, 8},
+        {1, 3, 4},
+        {2, 7, 4},
+        {8, 3, 8},
+        {1, 3, 4},
+        {1, 6, 14}};
+
+    std::cout << "My RAW Fleet \n";
+    for (size_t i = 0; i < FLEET_SIZE; i++)
+    {
+        std::cout << enemyRAWFleet[i].volume() << "\n";
+    }
+
+    std::cout << "Insertion sort \n";
+    eInsertionProcessor.sort(enemyRAWFleet, FLEET_SIZE);
+    for (size_t i = 0; i < FLEET_SIZE; i++)
+    {
+        std::cout << enemyRAWFleet[i].volume() << "\n";
+    }
+
+    delete[] enemyRAWFleet;
+
+    std::cout << "My Vector Fleet \n";
+    std::vector<EnemyShip> enemyVectorFleet = {};
+    enemyVectorFleet.push_back(EnemyShip(2, 3, 4));
+    enemyVectorFleet.push_back(EnemyShip(2, 6, 4));
+    enemyVectorFleet.push_back(EnemyShip(2, 8, 4));
+    enemyVectorFleet.push_back(EnemyShip(2, 3, 2));
+    enemyVectorFleet.push_back(EnemyShip(2, 9, 4));
+
+    for (EnemyShip e : enemyVectorFleet)
+    {
+        std::cout << e.volume() << "\n";
+    }
+    std::cout << "Insertion sort \n";
+    eInsertionProcessor.sort(enemyVectorFleet);
+    for (EnemyShip e : enemyVectorFleet)
+    {
+        std::cout << e.volume() << "\n";
+    }
+
     return 0;
 }
