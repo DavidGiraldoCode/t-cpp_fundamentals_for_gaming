@@ -30,3 +30,16 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ### Exercise 2: Sorting - Takeaways
 - I implemented an abstract base class to process the enemies. The derived classes implement different sorting algorithms.
 - Linear pedendencies could happen when using containers that refere to classes they contain. Always use `#pragma once` to avoid this type of conflicts.
+- With raw arrays, one can create array of user-defined objects and instantiate them in different ways
+```C++
+EnemyShip* enemyRAWFleetA = new EnemyShip[FLEET_SIZE]{{4, 6, 10},{4, 6, 10}};
+
+EnemyShip* enemyRAWFleetB = new EnemyShip[FLEET_SIZE];
+enemyRAWFleetB[0] = new EnemyShip(4, 6, 10);
+```
+- Object without default / copy constructors will yield an error if you try to store them into a `std::vector`. The standar `vector<T>` container needs a copy constructor that takes a costant reference to another object like so: 
+```C++
+EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()){}
+//Moreover, the functions to retunr the memeber should be const
+int getHeight() const {...}
+```

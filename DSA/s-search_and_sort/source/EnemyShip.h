@@ -11,14 +11,15 @@ class EnemyShip : public Comparable<EnemyShip>
 
     public:
         EnemyShip(int height, int width, int depth);
+        EnemyShip(const EnemyShip &another);
         ~EnemyShip();
-        //? EnemyShip(EnemyShip another) as in Java is not possible
-        const int volume();
-        const int getHeight();
-        const int getWidth();
-        const int getDepth();
+        int volume() const;
+        int getHeight() const;
+        int getWidth() const;
+        int getDepth() const;
         //TODO research about how the homologate the @Override from Java
         bool equals(EnemyShip &another);
         int hashCode(); 
+        //Find the natural order of couple of EnemyShips
         virtual int compareTo(EnemyShip &another) override; //virtual and override are only stated in the declaration file
 };

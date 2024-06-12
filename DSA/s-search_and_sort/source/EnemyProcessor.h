@@ -11,6 +11,6 @@ class EnemyProcessor
 public:
     //? This is an abstract class, therefore it does not have a constructor
     virtual ~EnemyProcessor() = default;
-    virtual void sort(int * enemiesArray[]) = 0;
-    virtual void sort(std::vector<EnemyShip> enemiesList) = 0;
+    virtual void sort(EnemyShip* enemiesArray, size_t size) = 0;
+    virtual void sort(std::vector<EnemyShip>& enemiesList) = 0;
 };
