@@ -5,7 +5,7 @@ EnemyShip::EnemyShip(int height, int width, int depth)
       m_width(width),
       m_depth(depth)
 {
-    std::cout << "EnemyShip ready" << "\n";
+    //std::cout << "EnemyShip ready" << "\n";
 }
 
 EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()),
@@ -14,7 +14,7 @@ EnemyShip::EnemyShip(const EnemyShip &other) : m_height(other.getHeight()),
 
 EnemyShip::~EnemyShip()
 {
-    // std::cout << "Bye!" << "\n";
+    //std::cout << "Bye!" << "\n";
 }
 
 int EnemyShip::volume() const

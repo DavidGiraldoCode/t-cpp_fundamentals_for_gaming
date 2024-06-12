@@ -7,7 +7,7 @@
 
 // TODO use Resource Acquisition is Initialization (RAII) pattern
 
-void sorting()
+void selectionSorting()
 {
     std::cout << "My RAW Array Fleet \n";
     const size_t FLEET_SIZE = 6;                         // The value that difines the aray most be constant
@@ -55,10 +55,8 @@ void sorting()
     }
 }
 
-int main(int argc, char *argv[])
+void insertionSorting()
 {
-
-    // sorting();
     EnemyInsertionProcessor eInsertionProcessor = EnemyInsertionProcessor();
     const size_t FLEET_SIZE = 9;
     EnemyShip *enemyRAWFleet = new EnemyShip[FLEET_SIZE]{
@@ -105,6 +103,12 @@ int main(int argc, char *argv[])
     {
         std::cout << e.volume() << "\n";
     }
+}
+
+int main(int argc, char *argv[])
+{
+    //selectionSorting();
+    //insertionSorting();
 
     return 0;
 }
