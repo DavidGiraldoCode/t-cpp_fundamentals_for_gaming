@@ -48,3 +48,15 @@ int getHeight() const {...}
 ### Exercise 3: Sequential Search - Takeaways
 - Brute force approach, fairly simply and straightforward.
 - I declare and defined the two overloaded methods on the base class, and either of the derived classes can use it.
+
+### Exercise 4: Binary Search
+- For the divide and conquer strategy, I defined three utility varaibles, `cursor` as index to move around, `min` and `max` as the dynamic ranges.
+- The `while` loop must consider a range of size 1 to cover cases in which the elements are on the extrem edges, like so:
+```C++
+target = 12;
+array[0] = 12;
+
+while ((max - min) >= 0) {...}// This loop will stop when the range is 1 -> 1 - 0
+while ((max - min) > 0) {...}// This loop will stop when the range is 2 -> 2 - 1
+```
+- The `cursor` should be offseted by the min range like so `cursor = min + (int)((max - min) / 2);`

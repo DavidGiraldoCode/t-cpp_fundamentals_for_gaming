@@ -15,4 +15,7 @@ public:
     virtual void sort(std::vector<EnemyShip> &enemiesList) = 0;
     int sequentialSearch(EnemyShip *enemiesArray, size_t size, EnemyShip &target);
     int sequentialSearch(std::vector<EnemyShip> &enemiesArray, EnemyShip &target);
+    int binarySearch(EnemyShip *enemiesArray, size_t size, EnemyShip &target);
+    int binarySearch(std::vector<EnemyShip> &enemiesArray, EnemyShip &target);
+
 };

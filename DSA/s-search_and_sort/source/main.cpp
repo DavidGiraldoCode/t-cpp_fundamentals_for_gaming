@@ -105,10 +105,8 @@ void insertionSorting()
     }
 }
 
-int main(int argc, char *argv[])
+void linearSearch()
 {
-    // selectionSorting();
-    // insertionSorting();
     const size_t FLEET_SIZE = 6;
     EnemyShip *enemyRAWFleet = new EnemyShip[FLEET_SIZE]{
         {2, 3, 8},
@@ -133,6 +131,48 @@ int main(int argc, char *argv[])
     std::cout << eInsertionProcessor.sequentialSearch(enemyRAWFleet, FLEET_SIZE, enemy) << "\n";
     std::cout << "Testing precense in vector: \n";
     std::cout << eInsertionProcessor.sequentialSearch(enemyFleet, enemy) << "\n";
+}
+
+int main(int argc, char *argv[])
+{
+    // selectionSorting();
+    // insertionSorting();
+    std::cout << "My RAW Fleet \n";
+    EnemyInsertionProcessor eInsertionProcessor = EnemyInsertionProcessor();
+    EnemyShip target = EnemyShip(9, 16, 14);
+    std::vector<EnemyShip> enemyFleet = {};
+    const size_t FLEET_SIZE = 15;
+    EnemyShip *enemyRAWFleet = new EnemyShip[FLEET_SIZE]{
+        {2, 3, 4},
+        {7, 3, 4},
+        {2, 7, 7},
+        {2, 3, 8},
+        {11, 3, 4},
+        {2, 7, 4},
+        {8, 3, 8},
+        {1, 3, 4},
+        {2, 11, 4},
+        {8, 13, 9},
+        {1, 3, 14},
+        {2, 11, 4},
+        {9, 9, 9},
+        {9, 3, 4},
+        {9, 16, 14}};
+    std::cout << "Insertion sort on RAW \n";
+    eInsertionProcessor.sort(enemyRAWFleet, FLEET_SIZE);
+    for (size_t i = 0; i < FLEET_SIZE; i++)
+    {
+        std::cout << enemyRAWFleet[i].volume() << "\n";
+        enemyFleet.push_back(enemyRAWFleet[i]);
+    }
+    std::cout << "Binary search: The target " << target.volume() << " is at index: \n"
+              << eInsertionProcessor.binarySearch(enemyRAWFleet, FLEET_SIZE, target) << " in the RAW array \n";
+    // std::cout << ((int)1/2) + 1 << " - \n";
+
+    delete[] enemyRAWFleet;
+
+    std::cout << "Binary search: The target " << target.volume() << " is at index: \n"
+              << eInsertionProcessor.binarySearch(enemyFleet, target) << " in the vector array \n";
 
     return 0;
 }

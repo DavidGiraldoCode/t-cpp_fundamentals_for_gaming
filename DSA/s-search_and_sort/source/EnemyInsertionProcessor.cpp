@@ -4,7 +4,7 @@ EnemyInsertionProcessor::EnemyInsertionProcessor() {}
 
 EnemyInsertionProcessor::~EnemyInsertionProcessor()
 {
-    std::cout << "EnemyInsertionProcessor Destroied \n";
+    std::cout << "EnemyInsertionProcessor Destroyed \n";
 }
 // TODO Implement Insertion Sort for dynamically allocated array
 void EnemyInsertionProcessor::sort(EnemyShip *enemiesArray, size_t size)
