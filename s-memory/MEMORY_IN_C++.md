@@ -213,7 +213,15 @@ goodAlien; //--> Will still have some attributes in the heap memory
 delete badAlien; // Deletes the allocated data in the heap memory
 ```
 
-### Accessing members with `*` and `&`
+### Repeat after me: "Not all pointers and references belong to heap memory."
+We can declare and instantiate pointers to classes, and those pointers can live in the stack memory as well as long as we do not specify heap allocation with `new.`
+```C++
+SpaceShip mySpaceShip; //Allocated in the stack
+SpaceShip* mySpaceShipAddress = &mySpaceShip; //A pointer to stack allocated memory
+SpaceShip& mySpaceShipRef = mySpaceShip; // Reference allocated in stack memory
+```
+
+#### Accessing members with `*` and `&`
 
 When using pointers as arguments, we can access the memebers of what they are pointing by the **member-of-pointer operator** `->` operator. Whereas with the references we can use the dot `.` operator.
 
