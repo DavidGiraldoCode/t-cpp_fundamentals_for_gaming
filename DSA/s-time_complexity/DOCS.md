@@ -42,11 +42,12 @@ Time given in nanoseconds (1e-9 seconds)
 | n<sup>3</sup> |          |          | 15326    |          |          |
 | 2<sup>n</sup> |          |          | 41       |          |          |
 | n!            |          |          | 15       |          |          |
+<br/>
 
-#### O-estimations for loops
-Give a tight O-estimation, as a function of n, of the worst case time
-complexity of the following five loops:
-
+# O-estimations in for loops
+Let us give an O-estimation, as a function of n, of the worst-case time
+complexity of the following algorithms:
+***
 ```
 Algorithm Loop1(n):    cost operations
    a = 0                C1  n
@@ -54,15 +55,17 @@ Algorithm Loop1(n):    cost operations
       a += i            C3  n-1 
 ```
 
+$$
 \begin{align*}
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot (n-1) \\
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot n - C_3 \\
 T(n) &= (C_1 + C_2 + C_3) \cdot n - C_3 \\
 T(n) &= a \cdot n - b
 \end{align*}
+$$
 
-Where `n` if the dominant term, thus, has a linear order of growth
-
+where `n` is the dominant term. Thus, the linear order of growth is `O(n)`.
+***
 ```
 Algorithm Loop2(n):   cost operations
    b = 1                C1 n
@@ -70,16 +73,18 @@ Algorithm Loop2(n):   cost operations
       b++               C3 4n-1 
 ```
 
+$$
 \begin{align*}
-T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot (4*n-1) \\
-T(n) &= C_1 \cdot n + C_2 \cdot n + 4*C_3 \cdot n - C_3 \\
-T(n) &= (C_1 + C_2 + 4*C_3) \cdot n - C_3 \\
+T(n) &= C_1 \cdot n + C_2 \cdot 4n + C_3 \cdot (4 \cdot n-1) \\
+T(n) &= C_1 \cdot n + C_2 \cdot 4n + 4 \cdot C_3 \cdot n - C_3 \\
+T(n) &= (C_1 + C_2 + 4 \cdot C_3) \cdot n - C_3 \\
 T(n) &= a \cdot n - b
 \end{align*}
+$$
 
-Where `n` if the dominant term, thus, has a linear order of growth.
-Even when the `n` if being multiply by `4`. That is irrelevant.
-
+Where `n` is the dominant term, it thus has a linear order of growth `O(n).`
+Even when the `n` is being multiplied by `4`. That contribution is irrelevant.
+***
 ```
 Algorithm Loop3(n):    cost  operations
    c = 1                 C1  n
@@ -87,16 +92,18 @@ Algorithm Loop3(n):    cost  operations
       c--                C3  n^2 - 1 
 ```
 
+$$
 \begin{align*}
-T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot (n^2-1)\\
-T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot n^2 - C_3\\
-T(n) &= C_3 \cdot n^2 + (C_1 + C_2) \cdot n - C_3\\
+T(n) &= C_1 \cdot n + C_2 \cdot n^2 + C_3 \cdot (n^2-1)\\
+T(n) &= C_1 \cdot n + C_2 \cdot n^2 + C_3 \cdot n^2 - C_3\\
+T(n) &= (C_2 + C_3) \cdot n^2 + C_1 \cdot n - C_3\\
 T(n) &= n^2 + a\cdot n - b
 \end{align*}
+$$
 
-After adding the costs, one can observe that `n^2` is the dominant term on the equation.
-Thus the algorithm has a `O(n^2)` order of growth. Cuadratic.
-
+After adding the costs, one can observe that `n^2` is the dominant term in the equation.
+Thus, the algorithm has an `O(n^2)` order of growth. Quadratic.
+***
 ```
 Algorithm Loop4(n):    cost   operations
    d = 5                 C1   n
@@ -104,23 +111,26 @@ Algorithm Loop4(n):    cost   operations
       for j = 1 to i     C3   SUM 3n - 1 
          d = d + j       C4   SUM 3n - 1 + n - 1
 ```
-Until `for i = 1 to 3n` the algorithm had a linear order of growth O(n).
-But since there is a second loop inside for each `i`. Then, lets focus on cost of that step
-Using the formula for aritmetric series
+Until `for i = 1 to 3n`, the algorithm had a linear order of growth `O(n)`.
+However, since there is a second loop inside for each `i`. Then, let's focus on the cost of that step using the formula for arithmetic series
 
+$$
 \begin{equation}
 \sum_{i=1}^{k} i = \frac{k(k+1)}{2}
 \end{equation}
+$$
 
-The cost of the innerloop is:
+The cost of the inner loop is:
 
+$$
 \begin{align}
 T(n) &= C_3 \left( \frac{3n (3n - 1)}{2} \right) \\
 T(n) &= C_3 \cdot 3n^2 - \frac{C_3 \cdot 3n}{2}
 \end{align}
+$$
 
 Where the dominant term is `3n^2`, thus the order of growth is `O(n^2)`.
-
+***
 ```
 Algorithm Loop5(n):     cost  operations
    e = 5                  C1  n
@@ -128,17 +138,21 @@ Algorithm Loop5(n):     cost  operations
       for j = 1 to i      C3  SUM n^2 - 1
          e = e + j        C4  1
 ```
-Here, the innerloop carries the most cost. The aritmetci series is:
+Here, the inner loop carries the most cost. The arithmetic series is:
 
+$$
 \begin{equation}
 \sum_{i=1}^{n^2} i = \frac{n^2(n^2+1)}{2}
 \end{equation}
+$$
 
 Then the cost is:
 
+$$
 \begin{align}
 T(n) &= C_3 \left( \frac{n^2 (n^2 - 1)}{2} \right) \\
 T(n) &= C_3 \cdot n^4 - \frac{C_3 \cdot n^2}{2}
 \end{align}
+$$
 
 Where the dominant term is `3n^4`, thus the order of growth is `O(n^4)`.
