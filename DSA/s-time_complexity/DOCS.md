@@ -156,3 +156,70 @@ T(n) &= C_3 \cdot n^4 - \frac{C_3 \cdot n^2}{2}
 $$
 
 Where the dominant term is `3n^4`, thus the order of growth is `O(n^4)`.
+
+<br/>
+
+## Analysis of a reversing algorithm
+The following algorithm reverses a collection.  Answer the following:
+
+- What is the basic operation for this algorithm?
+- Describe the time complexity of this algorithm
+
+```python
+Reverse (A):
+   # Input: an array A storing n elements.
+   # Output: the same array with the elements in reversed order.
+   for i = 1 to n-1
+       x = A[i]
+       for j = i down to 1
+           A[j] = A[j-1]
+       A[0] = x
+```
+
+Let us express this algorithm as a function T(n) where n is the size of the array
+```
+Algorithm T(n):     cost  time 
+for i = 1 to n-1      C1  n-1
+    x = i             C2  
+    for j = i to 1    C3  SUM n-1
+        j = j - 1     C4  1
+    0 = x             C5  n-2
+```
+
+The basic operation if the swaping at C4, that happens insde the inner loop, until `j` reaches `1`.
+Given that the inner loop runs `n-1` times, the series equations is:
+
+$$
+\begin{align*}
+\sum_{i=1}^{n-1} i = \frac{n-1(n-1+1)}{2} \\
+\sum_{i=1}^{n-1} i = \frac{(n-1)n}{2}
+\end{align*}
+$$
+
+Expressing the cost as:
+
+$$
+\begin{align}
+T(n) &= \frac{n^2 - n}{2}
+\end{align}
+$$
+
+Where `n^2` is the dominant term, thus the algorithm has an order of growth of `O(n^2)`.
+##
+### Analysis of a reversing algorithm of O(n)
+
+```
+Given A the original non-mutable array, and R the reversed array
+Algorithm T(n)           cost   times
+tip = 0                   C1     1
+end = n                   C2     1 
+while tip < n / 2         C3     n/2
+    R[tip] = A[end]       C4     n/2 - 1
+    R[end] = A[tip]        .     .
+    tip ++                 .     .
+    end --                 .     .
+return R                   C8    1
+```
+The basic operation here is assigning the tip of the reversed array to the end of the original array until the process reaches the middle.
+Therefore, given the `while tip < n / 2`, if the operation that happens more times, having a cost of `C3 * n/2`.
+The order of growth is `O(n)`, linear. 
