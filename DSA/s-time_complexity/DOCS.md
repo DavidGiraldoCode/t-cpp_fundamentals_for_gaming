@@ -53,6 +53,7 @@ Algorithm Loop1(n):    cost operations
    for i = 1 to n       C2  n
       a += i            C3  n-1 
 ```
+
 \begin{align*}
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot (n-1) \\
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot n - C_3 \\
@@ -68,12 +69,14 @@ Algorithm Loop2(n):   cost operations
    for i = 1 to 4n      C2 4n
       b++               C3 4n-1 
 ```
+
 \begin{align*}
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot (4*n-1) \\
 T(n) &= C_1 \cdot n + C_2 \cdot n + 4*C_3 \cdot n - C_3 \\
 T(n) &= (C_1 + C_2 + 4*C_3) \cdot n - C_3 \\
 T(n) &= a \cdot n - b
 \end{align*}
+
 Where `n` if the dominant term, thus, has a linear order of growth.
 Even when the `n` if being multiply by `4`. That is irrelevant.
 
@@ -83,6 +86,7 @@ Algorithm Loop3(n):    cost  operations
    for i = 1 to n^2      C2  n^2
       c--                C3  n^2 - 1 
 ```
+
 \begin{align*}
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot (n^2-1)\\
 T(n) &= C_1 \cdot n + C_2 \cdot n + C_3 \cdot n^2 - C_3\\
@@ -103,14 +107,18 @@ Algorithm Loop4(n):    cost   operations
 Until `for i = 1 to 3n` the algorithm had a linear order of growth O(n).
 But since there is a second loop inside for each `i`. Then, lets focus on cost of that step
 Using the formula for aritmetric series
+
 \begin{equation}
 \sum_{i=1}^{k} i = \frac{k(k+1)}{2}
 \end{equation}
+
 The cost of the innerloop is:
+
 \begin{align}
 T(n) &= C_3 \left( \frac{3n (3n - 1)}{2} \right) \\
 T(n) &= C_3 \cdot 3n^2 - \frac{C_3 \cdot 3n}{2}
 \end{align}
+
 Where the dominant term is `3n^2`, thus the order of growth is `O(n^2)`.
 
 ```
@@ -121,6 +129,7 @@ Algorithm Loop5(n):     cost  operations
          e = e + j        C4  1
 ```
 Here, the innerloop carries the most cost. The aritmetci series is:
+
 \begin{equation}
 \sum_{i=1}^{n^2} i = \frac{n^2(n^2+1)}{2}
 \end{equation}
