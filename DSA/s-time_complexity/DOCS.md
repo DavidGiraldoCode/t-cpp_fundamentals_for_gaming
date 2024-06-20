@@ -223,3 +223,10 @@ return R                   C8    1
 The basic operation here is assigning the tip of the reversed array to the end of the original array until the process reaches the middle.
 Therefore, given the `while tip < n / 2`, if the operation that happens more times, having a cost of `C3 * n/2`.
 The order of growth is `O(n)`, linear. 
+
+### Runtime Complexity of Insertion and Selection sort
+
+```
+Algorithm Insertion Sort T(n)     cost  time
+
+```

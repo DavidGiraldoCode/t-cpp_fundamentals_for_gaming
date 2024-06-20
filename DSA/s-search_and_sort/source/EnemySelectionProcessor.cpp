@@ -10,6 +10,7 @@ EnemySelectionProcessor::~EnemySelectionProcessor()
 void EnemySelectionProcessor::sort(EnemyShip* enemiesArray, size_t size) 
 {
     // TODO Implement Selection Sort for dynamically allocated array
+    int comparisonsCounter = 0, spawingCounter = 0;
     /**
      * Go through the array, starting with the assumption that the first element is the smallest
      * Compare the assumption with the element to the right, keep comparing until 
@@ -26,12 +27,17 @@ void EnemySelectionProcessor::sort(EnemyShip* enemiesArray, size_t size)
             if(enemiesArray[j].compareTo(enemiesArray[smallestPosition]) == -1)
             {
                 smallestPosition = j;
+                comparisonsCounter++;
             }
+            
         }
         EnemyShip temp = enemiesArray[i]; // This object's destructor will be called once the functions ends
         enemiesArray[i] = enemiesArray[smallestPosition];
         enemiesArray[smallestPosition] = temp;
+        spawingCounter++;
+        
     }
+    std::cout << "\n SELECTION SORT \nComparisons: " << comparisonsCounter << " - Swapings: " << spawingCounter << " \n";
 
 };
 
