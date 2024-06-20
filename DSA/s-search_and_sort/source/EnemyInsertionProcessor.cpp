@@ -9,6 +9,7 @@ EnemyInsertionProcessor::~EnemyInsertionProcessor()
 // TODO Implement Insertion Sort for dynamically allocated array
 void EnemyInsertionProcessor::sort(EnemyShip *enemiesArray, size_t size)
 {
+    int comparisonsCounter = 0, spawingCounter = 0;
     /**
      * Take the second element and compare to the first one,
      * If the left-hand side is greater, swap.
@@ -21,14 +22,20 @@ void EnemyInsertionProcessor::sort(EnemyShip *enemiesArray, size_t size)
         // int j = i - 1;
         ref = i;
         // Go R2L while the left element is bigger than the right element
-        while (ref > 0 && enemiesArray[ref - 1].compareTo(enemiesArray[ref]) == 1)
+        while (ref > 0) //&& enemiesArray[ref - 1].compareTo(enemiesArray[ref]) == 1)
         {
-            EnemyShip temp = enemiesArray[ref];
-            enemiesArray[ref] = enemiesArray[ref - 1];
-            enemiesArray[ref - 1] = temp;
+            if (enemiesArray[ref - 1].compareTo(enemiesArray[ref]) == 1)
+            {
+                EnemyShip temp = enemiesArray[ref];
+                enemiesArray[ref] = enemiesArray[ref - 1];
+                enemiesArray[ref - 1] = temp;
+                spawingCounter++;
+            }
             ref--; // Move to the next left position
+            comparisonsCounter++;
         }
     }
+    std::cout << "\n INSERTION SORT \nComparisons: " << comparisonsCounter << " - Swapings: " << spawingCounter << " \n";
 };
 // TODO Implement Insertion Sort for vector
 void EnemyInsertionProcessor::sort(std::vector<EnemyShip> &enemiesList)
