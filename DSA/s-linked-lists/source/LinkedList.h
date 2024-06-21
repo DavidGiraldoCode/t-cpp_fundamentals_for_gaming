@@ -126,3 +126,10 @@ bool LinkedList<T>::isEmpty() // TODO review
 {
     return first && last;
 }
+
+//* READ THIS:
+/**
+ * You ar dealying with the creation of the first node in the List
+ * There are some doubts with const at the end of the methods.
+ * And the way to re-assign the point to the next and first.
+ */
