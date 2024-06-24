@@ -89,7 +89,7 @@ Memory leaks is a consequence of not deallocating dynamically allocated memory. 
 
 ## What are references `&` in C++?
 
-They are like “safe pointers”, where we use the “address(in RAM)-of” operator `&` . And this is telling the address of EXISTING data, it cannot point to nothing or nullPointer. So it is preferable to use references instead of pointers.
+They are like “safe pointers”, where we use the “address(in RAM)-of” operator `&` . And this is telling the address of EXISTING data, it cannot point to nothing or nullPointer. Meaning, they **CANNOT be null**. So it is preferable to use references instead of pointers.
 
 By default, C++ passes variables by value (PBV), and is expensive is the variable holds large amounts of data.
 
