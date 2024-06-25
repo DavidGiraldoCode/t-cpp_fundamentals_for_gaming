@@ -30,6 +30,7 @@ private:
 
 public:
     LinkedList();
+    LinkedList(const LinkedList &other);
     ~LinkedList();
     /**
      * Inserts the given element at the beginning of this list.
@@ -103,6 +104,35 @@ LinkedList<T>::LinkedList() : first(nullptr), last(nullptr), m_size(0)
     std::cout << "empty LinkedList created \n";
     first = nullptr;
     last = nullptr;
+}
+
+template <typename T>
+LinkedList<T>::LinkedList(const LinkedList &other) : first(nullptr), last(nullptr), m_size(0)
+{
+    /**
+     * While throwing the exception is valid, copying an empty list is legit
+     * throw std::logic_error{"The List is empty, nothing to copy"};
+     */
+    if (other.size() != 0)
+    {
+        first = new ListElement(other.getFirst());
+        last = first;
+        m_size = other.size();
+        std::cout << "Copying " << first->element << "\n";
+
+        for (size_t i = 1; i < other.size(); i++)
+        {
+            ListElement *copy = new ListElement(other.get(i));
+            copy->previous = last;
+            last->next = copy;
+            last = copy;
+            std::cout << "Copying " << copy->element << "\n";
+        }
+    }
+    else
+    {
+        std::cout << "empty copy of LinkedList created \n";
+    }
 }
 
 template <typename T>
