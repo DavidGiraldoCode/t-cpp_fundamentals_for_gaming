@@ -4,8 +4,12 @@
 
 int main(int argc, char *argv[])
 {
-    LinkedList<int> myLinkedList = LinkedList<int>();             // Stack allocated
-    LinkedList<int> *myLinkedListPointer = new LinkedList<int>(); // Heap allocated
+    LinkedList<int> myLinkedList = LinkedList<int>(); // Stack allocated
+
+    // LinkedList<int> *myLinkedListPointer = new LinkedList<int>(); // Heap allocated
+
+    myLinkedList.addFirst(69);
+    myLinkedList.addLast(1);
 
     std::cout << "SList Size: " << myLinkedList.size() << "\n";
     // std::cout << "HList Size: " << myLinkedListPointer->size() << "\n";
@@ -14,7 +18,12 @@ int main(int argc, char *argv[])
 
     try
     {
-        std::cout << "myLinkedList.getFirst(): " << myLinkedList.getFirst() << "\n";
+        std::cout << "myLinkedList.removeFirst(): " << myLinkedList.removeFirst() << "\n";
+        //int &val = myLinkedList.getLast();
+        myLinkedList.getFirst() = 5;
+        myLinkedList.get(0) = 99;
+        //val = 2;
+        std::cout << "New value? " << myLinkedList.getFirst() << "\n";
     }
     catch (std::exception &exp)
     {
@@ -34,26 +43,27 @@ int main(int argc, char *argv[])
 
     // std::cout << "HList isEmpty: " << myLinkedListPointer->isEmpty() << "\n";
 
-    myLinkedList.addLast(7);
-    std::cout << "myLinkedList.getFirst(): " << myLinkedList.getFirst() << "\n";
-    std::cout << "myLinkedList.getLast(): " << myLinkedList.getLast() << "\n";
-    // std::cout << "myLinkedList.removeFirst(): " << myLinkedList.removeFirst() << "\n";
+    // std::cout << "myLinkedList.getFirst(): " << myLinkedList.getFirst() << "\n";
+    // std::cout << "myLinkedList.getLast(): " << myLinkedList.getLast() << "\n";
+    //  std::cout << "myLinkedList.removeFirst(): " << myLinkedList.removeFirst() << "\n";
     try
     {
-        std::cout << "myLinkedList.get(#): " << myLinkedList.get(1) << "\n";
+        // std::cout << "myLinkedList.get(#): " << myLinkedList.get(0) << "\n";
+        // std::cout << "myLinkedList.removeLast(): " << myLinkedList.removeLast() << "\n";
+        // std::cout << "myLinkedList.getLast(): " << myLinkedList.getLast() << "\n";
     }
-    catch (std::exception exp)
+    catch (std::exception &exp)
     {
         std::cout << "Sorry: " << exp.what() << "\n";
     }
 
     // std::cout << "SList Size: " << myLinkedList.size() << "\n";
-    myLinkedList.clear();
-    std::cout << "SList isEmpty: " << myLinkedList.isEmpty() << "\n";
+    // myLinkedList.clear();
+    // std::cout << "SList isEmpty: " << myLinkedList.isEmpty() << "\n";
 
     // std::cout << "myLinkedList.get(#): " << myLinkedList.get(-1) << "\n";
 
-    delete myLinkedListPointer;
+    // delete myLinkedListPointer;
 
     return 0;
 }

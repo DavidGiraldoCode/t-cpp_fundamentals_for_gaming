@@ -7,9 +7,6 @@ class LinkedList
 {
 private:
     size_t m_size;
-    // T *m_list = nullptr;
-
-    // template <typename T>
     class ListElement
     {
     public:
@@ -22,7 +19,9 @@ private:
         }
         ~ListElement()
         {
-            std::cout << "ListElement destroyed\n";
+            next = nullptr;
+            previous = nullptr;
+            std::cout << "ListElement with element " << element << " destroyed\n";
         }
     };
 
@@ -30,8 +29,7 @@ private:
     ListElement *last;
 
 public:
-    int val;
-    explicit LinkedList(); // TODO review more about explicit
+    LinkedList();
     ~LinkedList();
     /**
      * Inserts the given element at the beginning of this list.
@@ -74,6 +72,13 @@ public:
      */
     T removeFirst();
     /**
+     * Removes the last element from the list.
+     *
+     * @return The removed element.
+     * @throws NoSuchElementException if the list is empty.
+     */
+    T removeLast();
+    /**
      * Removes all of the elements from the list.
      */
     void clear();
@@ -103,25 +108,29 @@ LinkedList<T>::LinkedList() : first(nullptr), last(nullptr), m_size(0)
 template <typename T>
 LinkedList<T>::~LinkedList()
 {
-    // m_list = new T;
+    ListElement *current = first;
+    while (current != nullptr)
+    {
+        ListElement *next = current->next;
+        delete current;
+        current = next;
+    }
     std::cout << "LinkedList destroyed \n";
-    delete first;
-    delete last;
 }
 
 template <typename T>
 void LinkedList<T>::addFirst(const T &node)
 {
     ListElement *element = new ListElement(node);
-    if (!first)
+    if (!first && m_size == 0) // Invariance: Check if the lit is empty
     {
         first = element;
         last = element;
-        // addLast(element);
     }
     else
     {
         element->next = first;
+        first->previous = element;
         first = element;
     }
     m_size++;
@@ -131,15 +140,15 @@ template <typename T>
 void LinkedList<T>::addLast(const T &node)
 {
     ListElement *element = new ListElement(node);
-    if (!last)
+    if (!last && m_size == 0) // Invariance, check if the list is empty
     {
         last = element;
         first = element;
-        // addFirst(element);
     }
     else
     {
         last->next = element;
+        element->previous = last;
         last = element;
     }
     m_size++;
@@ -182,10 +191,10 @@ T &LinkedList<T>::get(const size_t target) const
         return last->element;
 
     int i = 1;
-    ListElement *node = first->next;
-    while (node != nullptr && i < target)
+    ListElement *node = first;
+    while (node != nullptr && i <= target)
     {
-        ListElement *temp = node->next;
+        ListElement *temp = node->next; // Start on the second becase we avoid the looping if target is 0.
         node = temp;
         i++;
     }
@@ -196,17 +205,53 @@ T &LinkedList<T>::get(const size_t target) const
  * Notice that here we return a COPY not a refence to the removed element
  * Because the removed element no longer exist in memory, and its reference
  * has been deallocated from memory
-*/
+ */
 template <typename T>
 T LinkedList<T>::removeFirst()
 {
-    // invariance
     if (m_size == 0)
         throw std::logic_error{"The list is empty, nothing to remove"};
-    ListElement *temp = first->next;
+
     T removedElement = first->element;
-    delete first;
-    first = temp;
+    if (m_size == 1)
+    {
+        delete first;
+        first = nullptr;
+        last = nullptr;
+    }
+    else
+    {
+        ListElement *temp = first->next;
+        temp->previous = nullptr;
+        delete first;
+        first = temp;
+    }
+
+    m_size--;
+    return removedElement;
+}
+
+template <typename T>
+T LinkedList<T>::removeLast()
+{
+    if (m_size == 0)
+        throw std::logic_error{"The list is empty, nothing to remove"};
+
+    T removedElement = last->element;
+    if (m_size == 1)
+    {
+        delete first;
+        first = nullptr;
+        last = nullptr;
+    }
+    else
+    {
+        ListElement *temp = last->previous;
+        temp->next = nullptr;
+        delete last;
+        last = temp;
+    }
+
     m_size--;
     return removedElement;
 }
@@ -224,7 +269,6 @@ void LinkedList<T>::clear()
         ListElement *temp = node->next;
         delete node;
         node = temp;
-        m_size--;
     }
     first = nullptr;
     last = nullptr;
@@ -232,13 +276,13 @@ void LinkedList<T>::clear()
 }
 
 template <typename T>
-int LinkedList<T>::size() const // TODO review
+int LinkedList<T>::size() const
 {
     return m_size;
 }
 
 template <typename T>
-bool LinkedList<T>::isEmpty() const // TODO review
+bool LinkedList<T>::isEmpty() const
 {
     return !first && !last;
 }
