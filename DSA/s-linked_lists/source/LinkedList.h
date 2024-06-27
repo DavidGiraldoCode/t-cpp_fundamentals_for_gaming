@@ -96,6 +96,23 @@ public:
      */
     bool isEmpty() const;
     //! Convert to String will be pending.
+     /**
+     * Creates a string representation of this list. The string
+     * representation consists of a list of the elements enclosed in
+     * square brackets ("[]"). Adjacent elements are separated by the
+     * characters ", " (comma and space). Elements are converted to
+     * strings by the method toString() inherited from Object.
+     *
+     * Examples:
+     *  "[1, 4, 2, 3, 44]"
+     *  "[]"
+     *
+     * @return A string representing the list.
+     */
+    // public String toString() {
+    //     // TODO
+    //     return null;
+    // }
 };
 
 template <typename T>

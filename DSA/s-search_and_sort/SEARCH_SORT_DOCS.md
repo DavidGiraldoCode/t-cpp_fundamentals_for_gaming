@@ -18,7 +18,7 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 - The `:` defines an inheritance relationship between a derived class and a base class.
 - Defining methods as `virtual` means that a derived class will implement them, and the base class holding this method can not initantiate any objects.
 - To require the impementation of a `virtual` method, we use the sufix `= 0;` at the end of the method.
-- The method `virtual int compareTo(T &another) = 0;` is an example of a pure-vitual method.
+- The method `virtual int compareTo(T &another) = 0;` is an example of a pure-virtual method.
 
 #### Interfaces in C++
 - They are abstract classes that can not be instantiable.
