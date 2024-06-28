@@ -55,3 +55,24 @@ public:
     int compareTo(T &another) override;
 }
 ```
+
+## Errors
+
+Abstract classes, in this case an Interface cannot instantiate any objects, it will yield an error: 
+```bash
+main.cpp:7:23: error: allocating an object of abstract class type 'LinkedList<int>'
+    Stack<int> list = LinkedList<int>();
+```
+
+To be able to use a more clear way of declaring a Stack, one can use aliases:
+
+```C++
+// Define a type alias
+template <typename T>
+using StackList = LinkedList<T>;
+StackList<int> stack = LinkedList<int>();
+```
+
+## Future work
+
+- [ ] Implemented the Stack using arrays, and dynamic re-sizing
