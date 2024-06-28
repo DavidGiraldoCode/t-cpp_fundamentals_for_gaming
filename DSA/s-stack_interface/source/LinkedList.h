@@ -34,7 +34,9 @@ public:
     LinkedList(const LinkedList &other);
     ~LinkedList();
     //* ============================================================ STACK implementations
-
+    void push(const T &element) override;
+    T pop() override;
+    T &top() const override;
     //* ============================================================
     /**
      * Inserts the given element at the beginning of this list.
@@ -90,7 +92,7 @@ public:
     /**
      * @return The number of elements in the list.
      */
-    int size() const;
+    const int size() const override;
     /**
      * Note that by definition, the list is empty if both first and last
      * are null, regardless of what value the size field holds (it should
@@ -98,9 +100,9 @@ public:
      *
      * @return <code>true</code> if this list contains no elements.
      */
-    bool isEmpty() const;
+    const bool isEmpty() const override;
     //! Convert to String will be pending.
-     /**
+    /**
      * Creates a string representation of this list. The string
      * representation consists of a list of the elements enclosed in
      * square brackets ("[]"). Adjacent elements are separated by the
@@ -168,6 +170,25 @@ LinkedList<T>::~LinkedList()
     }
     std::cout << "LinkedList destroyed \n";
 }
+//* ============================================================ STACK implementations
+template <typename T>
+void LinkedList<T>::push(const T &element)
+{
+    addFirst(element);
+}
+
+template <typename T>
+T LinkedList<T>::pop()
+{
+    return removeFirst();
+}
+
+template <typename T>
+T& LinkedList<T>::top() const
+{
+    return getFirst();
+}
+//* ============================================================
 
 template <typename T>
 void LinkedList<T>::addFirst(const T &node)
@@ -327,13 +348,13 @@ void LinkedList<T>::clear()
 }
 
 template <typename T>
-int LinkedList<T>::size() const
+const int LinkedList<T>::size() const
 {
     return m_size;
 }
 
 template <typename T>
-bool LinkedList<T>::isEmpty() const
+const bool LinkedList<T>::isEmpty() const
 {
     return !first && !last;
 }
