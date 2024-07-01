@@ -22,7 +22,7 @@ private:
         {
             next = nullptr;
             previous = nullptr;
-            std::cout << "ListElement with element " << element << " destroyed\n";
+            //std::cout << "ListElement with element " << element << " destroyed\n";
         }
     };
 
@@ -124,7 +124,7 @@ public:
 template <typename T>
 LinkedList<T>::LinkedList() : first(nullptr), last(nullptr), m_size(0)
 {
-    std::cout << "empty LinkedList created \n";
+    //std::cout << "empty LinkedList created \n";
     first = nullptr;
     last = nullptr;
 }
@@ -141,7 +141,7 @@ LinkedList<T>::LinkedList(const LinkedList &other) : first(nullptr), last(nullpt
         first = new ListElement(other.getFirst());
         last = first;
         m_size = other.size();
-        std::cout << "Copying " << first->element << "\n";
+        //std::cout << "Copying " << first->element << "\n";
 
         for (size_t i = 1; i < other.size(); i++)
         {
@@ -149,12 +149,12 @@ LinkedList<T>::LinkedList(const LinkedList &other) : first(nullptr), last(nullpt
             copy->previous = last;
             last->next = copy;
             last = copy;
-            std::cout << "Copying " << copy->element << "\n";
+            //std::cout << "Copying " << copy->element << "\n";
         }
     }
     else
     {
-        std::cout << "empty copy of LinkedList created \n";
+        //std::cout << "empty copy of LinkedList created \n";
     }
 }
 
@@ -168,7 +168,7 @@ LinkedList<T>::~LinkedList()
         delete current;
         current = next;
     }
-    std::cout << "LinkedList destroyed \n";
+    //std::cout << "LinkedList destroyed \n";
 }
 //* ============================================================ STACK implementations
 template <typename T>
@@ -333,11 +333,11 @@ void LinkedList<T>::clear()
 {
     if (m_size == 0)
         throw std::logic_error{"The list is already empty"};
-    std::cout << "Clearing list\n";
+    //std::cout << "Clearing list\n";
     ListElement *node = first;
     while (node != nullptr)
     {
-        std::cout << node->element << " deleting.. \n";
+        //std::cout << node->element << " deleting.. \n";
         ListElement *temp = node->next;
         delete node;
         node = temp;
