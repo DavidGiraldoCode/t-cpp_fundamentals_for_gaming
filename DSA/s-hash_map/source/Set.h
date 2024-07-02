@@ -47,5 +47,5 @@ public:
      *
      * @return The amount of elements in this set.
      */
-    virtual int size() const = 0;
+    virtual size_t size() const = 0;
 };
