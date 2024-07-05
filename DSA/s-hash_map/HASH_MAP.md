@@ -13,8 +13,11 @@ The size of the underlying array is called _buckets_. We map each `key` to each 
 3. Search
 
 ## Implementation
+### 0. The bucket size
+As in any other data structure, we need to store the elements of the Hash map somewhere, and the must effective way is inside an array, where each position will be the `index` in which each `key` has been mapped by the _hash_ function. But, the number of elements to store in the table is not always known at compile time. So the table (array) will have to save 
 
-1. Hashing (_Codification_): The hash function transforms / encodes any complex object we decide to use as key into a simple _Integer_ or `size_t` that becomes the `index`, meaning the `key` of that `value`. A hashing function has:
+### 1. Hashing (_Codification_): 
+The hash function transforms / encodes any complex object we decide to use as key into a simple _Integer_ or `size_t` that becomes the `index`, meaning the `key` of that `value`. A hashing function has:
 ```C++
 /**
  * @param Key
@@ -22,6 +25,7 @@ The size of the underlying array is called _buckets_. We map each `key` to each 
  * @exception None
 */
 ```
+In C++ there is a template class called `std::hash<T>` that account for hashing every know value type in C++, except for user-defined types.
 2. Compression: Reduce the encoded _Interger_ into a `size_t` within the range of the array, other wise increase the size of the array. The compression can be done using Multiplication, Addition or Division.
 3. Collissions: In come cases, completly different objects can end up with the same key, we need to resolve these cases so both elements can be stored and retrieved.
     - Lienar Probing: Look for more space
