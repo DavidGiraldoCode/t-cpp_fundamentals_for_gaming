@@ -37,15 +37,16 @@ int main(int argc, char *argv[])
     HashSet<int> hashSet = HashSet<int>(10);
     HashSet<char> hashSetChars = HashSet<char>(10);
     HashSet<std::string> hashSetStrings = HashSet<std::string>(5);
-    std::vector<std::string> records = {"David", "Juan", "Jose", "Arturo", "Camilo", "Camila"};
+    std::vector<std::string> records = {"David", "David", "Juan", "Jose", "Arturo", "Camilo", "Camila"};
 
     for (size_t i = 0; i < records.size(); i++)
     {
         hashSetStrings.add(records[i]);
     }
     std::cout << "Test presence of: " << records[0] << " -> " << hashSetStrings.contains(records[0]) << '\n';
-    std::cout << "Remove test status: " << hashSetStrings.remove("David") << '\n';
-    std::cout << "Test presence of: " << records[0] << " -> " << hashSetStrings.contains(records[0]) << '\n';
+    std::cout << "Test presence of: " << records[6] << " -> " << hashSetStrings.contains(records[6]) << '\n';
+    // std::cout << "Remove test status: " << hashSetStrings.remove("David") << '\n';
+    // std::cout << "Test presence of: " << records[0] << " -> " << hashSetStrings.contains(records[0]) << '\n';
 
     // HashSet<Person> personHashSet = HashSet<Person>(10);
     // const Person p1 {"1995-03-23", 173};

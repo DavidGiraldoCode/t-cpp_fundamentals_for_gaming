@@ -101,29 +101,43 @@ HashSet<T>::~HashSet()
 template <typename T>
 bool HashSet<T>::add(const T &elem)
 {
+    if (contains(elem)) // Invariance: check if it is a new element
+        return false;
+
     auto code = m_hasher(elem) % m_bucketsCount;
     std::cout << "Code hashed: " << code << "\n";
 
     if (code >= m_bucketsCount || m_tableLoad > LOAD_FACTOR)
         resize(code);
 
-    try
+    /**
+     * We know is new,
+     * 1. Check if the bucket is empty,
+     * 2. If is not empty, check for collisions
+     * */
+
+    if (m_table[code].size() == 0)
     {
-        if (m_equalTo(m_table[code].getFirst(), elem))
-        {
-            std::cout << "Element aready in the HashTable\n";
-            return false;
-        }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << "\n";
         m_table[code].addLast(elem);
         m_size++;
         m_tableLoad = (float)m_size / (float)m_bucketsCount;
-        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, table load: " << m_tableLoad << '\n';
+        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, with index: " << code << " , table load: " << m_tableLoad << '\n';
+        return true;
     }
-    return true;
+    else // Bucket not empty
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            size_t bucketCode = (m_hasher(m_table[code].get(i)) % m_bucketsCount);
+            if (code == bucketCode)
+            {
+                std::cout << "Element's code -> " << code << " - Bucket content's code -> " << bucketCode << '\n';
+            }
+        }
+        // (m_hasher(m_table[code].getFirst()) % m_bucketsCount)
+        std::cout << "Theres a Collission: Element -> " << elem << " - Bucket content -> " << m_table[code].getFirst() << '\n';
+        return false;
+    }
 }
 
 // TODO
@@ -146,15 +160,15 @@ bool HashSet<T>::remove(const T &elem)
     return true;
 }
 
-//TODO the current code does not account for resolved collisions
+// TODO the current code does not account for resolved collisions
 template <typename T>
 bool HashSet<T>::contains(const T &elem) const
 {
     auto code = m_hasher(elem) % m_bucketsCount;
-    if(code >= m_bucketsCount)
+    if (code >= m_bucketsCount)
         return false;
 
-    //std::cout << m_table[code].getFirst() << " the element, ";
+    // std::cout << m_table[code].getFirst() << " the element, ";
     return m_table[code].size() != 0 ? m_equalTo(m_table[code].getFirst(), elem) : false;
 }
 
