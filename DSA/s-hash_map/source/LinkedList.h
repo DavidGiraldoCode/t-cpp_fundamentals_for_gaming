@@ -21,7 +21,7 @@ private:
         {
             next = nullptr;
             previous = nullptr;
-            std::cout << "ListElement with element " << element << " destroyed\n";
+            //* std::cout << "ListElement with element " << element << " destroyed\n";
         }
     };
 
@@ -118,7 +118,7 @@ public:
 template <typename T>
 LinkedList<T>::LinkedList() : first(nullptr), last(nullptr), m_size(0)
 {
-    std::cout << "empty LinkedList created \n";
+    //* std::cout << "empty LinkedList created \n";
     first = nullptr;
     last = nullptr;
 }
@@ -143,12 +143,12 @@ LinkedList<T>::LinkedList(const LinkedList &other) : first(nullptr), last(nullpt
             copy->previous = last;
             last->next = copy;
             last = copy;
-            std::cout << "Copying " << copy->element << "\n";
+            //* std::cout << "Copying " << copy->element << "\n";
         }
     }
     else
     {
-        std::cout << "empty copy of LinkedList created \n";
+       //* std::cout << "empty copy of LinkedList created \n";
     }
 }
 
@@ -162,7 +162,7 @@ LinkedList<T>::~LinkedList()
         delete current;
         current = next;
     }
-    std::cout << "LinkedList destroyed \n";
+    //* std::cout << "LinkedList destroyed \n";
 }
 
 template <typename T>

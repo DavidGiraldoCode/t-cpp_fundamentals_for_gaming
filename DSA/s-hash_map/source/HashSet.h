@@ -12,14 +12,10 @@
  * @class HashSet
  * @brief A template class implementing a HashSet with a raw array of LinkedLists as table.
  * @tparam T The type of elements stored in the list.
-*/
+ */
 template <typename T>
 class HashSet : public Set<T>
 {
-private:
-    LinkedList<T> *table = nullptr;
-    size_t m_size = 0;
-
 public:
     /**
      * Creates a hash table with the given capacity (amount of buckets).
@@ -31,7 +27,7 @@ public:
     /**
      * Adds the given element to the set.
      *
-     * @brief O(1) expected time.
+     * @brief O(1) expected time. Use the `std::hash<T>` class to create the hash code
      *
      * @param elem An element to add to the set.
      * @return true if the set did not contain the element, otherwise false.
@@ -66,24 +62,38 @@ public:
      * @return The amount of elements in this set.
      */
     size_t size() const override;
+
+private:
+    LinkedList<T> *m_table = nullptr;
+    size_t m_size = 0;
+    size_t m_bucketsCount = 0;
+    float m_tableLoad = 0.0f;
+    const float LOAD_FACTOR = 0.75f;
+    std::hash<T> m_hasher;      //* STD hashing function
+    std::equal_to<T> m_equalTo; //* STD comparate function
+
+    void resize(const size_t &newSize);
 };
 
 //* Implementation
 
 template <typename T>
-HashSet<T>::HashSet(const int capacity) : m_size(capacity)
+HashSet<T>::HashSet(const int capacity) : m_bucketsCount(capacity)
 {
     if (capacity <= 0)
         throw std::invalid_argument{"capacity must be a positive, non-zero value!"};
 
-    table = new LinkedList<T>[capacity];
-    m_size = capacity;
+    //? Recall the capacity of a Raw array can change.
+    m_table = new LinkedList<T>[capacity];
+    std::cout << "Size of: " << sizeof(T) << '\n';
+    m_bucketsCount = capacity;
+    m_tableLoad = m_size / m_bucketsCount;
 };
 
 template <typename T>
 HashSet<T>::~HashSet()
 {
-    delete [] table;
+    delete[] m_table;
 };
 
 //* Member functions
@@ -91,23 +101,79 @@ HashSet<T>::~HashSet()
 template <typename T>
 bool HashSet<T>::add(const T &elem)
 {
-    return false;
+    if (contains(elem)) // Invariance: check if it is a new element
+        return false;
+
+    auto code = m_hasher(elem) % m_bucketsCount;
+    std::cout << "Code hashed: " << code << "\n";
+
+    if (code >= m_bucketsCount || m_tableLoad > LOAD_FACTOR)
+        resize(code);
+
+    /**
+     * We know is new,
+     * 1. Check if the bucket is empty,
+     * 2. If is not empty, check for collisions
+     * */
+
+    if (m_table[code].size() == 0)
+    {
+        m_table[code].addLast(elem);
+        m_size++;
+        m_tableLoad = (float)m_size / (float)m_bucketsCount;
+        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, with index: " << code << " , table load: " << m_tableLoad << '\n';
+        return true;
+    }
+    else // Bucket not empty
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            size_t bucketCode = (m_hasher(m_table[code].get(i)) % m_bucketsCount);
+            if (code == bucketCode)
+            {
+                std::cout << "Element's code -> " << code << " - Bucket content's code -> " << bucketCode << '\n';
+            }
+        }
+        // (m_hasher(m_table[code].getFirst()) % m_bucketsCount)
+        std::cout << "Theres a Collission: Element -> " << elem << " - Bucket content -> " << m_table[code].getFirst() << '\n';
+        return false;
+    }
+}
+
+// TODO
+template <typename T>
+void HashSet<T>::resize(const size_t &newSize)
+{
+    std::cout << "Need to re-size\n";
+    LinkedList<T> *newTable = new LinkedList<T>[newSize * 2];
+    delete[] m_table;
 }
 
 template <typename T>
 bool HashSet<T>::remove(const T &elem)
 {
-    return false;
+    if (!contains(elem))
+        return false;
+
+    auto code = m_hasher(elem) % m_bucketsCount;
+    m_table[code].removeFirst();
+    return true;
 }
 
+// TODO the current code does not account for resolved collisions
 template <typename T>
 bool HashSet<T>::contains(const T &elem) const
 {
-    return false;
+    auto code = m_hasher(elem) % m_bucketsCount;
+    if (code >= m_bucketsCount)
+        return false;
+
+    // std::cout << m_table[code].getFirst() << " the element, ";
+    return m_table[code].size() != 0 ? m_equalTo(m_table[code].getFirst(), elem) : false;
 }
 
 template <typename T>
 size_t HashSet<T>::size() const
 {
-    return false;
+    return m_size;
 }
