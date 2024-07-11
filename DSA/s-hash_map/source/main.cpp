@@ -34,8 +34,8 @@ int main(int argc, char *argv[])
      hashSetChars.add(recordA);
      hashSetChars.add(recordB);
      hashSetChars.add(recordC);*/
-    //HashSet<int> hashSet = HashSet<int>(10);
-    //HashSet<char> hashSetChars = HashSet<char>(10);
+    // HashSet<int> hashSet = HashSet<int>(10);
+    // HashSet<char> hashSetChars = HashSet<char>(10);
     HashSet<std::string> hashSetStrings = HashSet<std::string>(5);
     std::vector<std::string> records = {"David", "David", "Juan", "Jose", "Arturo", "Camilo", "Camila"};
 
@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
     std::cout << "Test presence of: " << records[6] << " -> " << hashSetStrings.contains(records[6]) << '\n';
     std::cout << "Test presence of: " << records[2] << " -> " << hashSetStrings.contains(records[2]) << '\n';
     std::cout << "Test presence of: " << "Pedro" << " -> " << hashSetStrings.contains("Pedro") << '\n';
+    std::cout << "Test presence of: " << records[5] << " -> " << hashSetStrings.contains(records[5]) << '\n';
+
     // std::cout << "Remove test status: " << hashSetStrings.remove("David") << '\n';
     // std::cout << "Test presence of: " << records[0] << " -> " << hashSetStrings.contains(records[0]) << '\n';
 

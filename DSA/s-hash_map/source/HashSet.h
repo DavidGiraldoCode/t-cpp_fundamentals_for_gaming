@@ -63,7 +63,13 @@ private:
     std::hash<T> m_hasher;      //* STD hashing function
     std::equal_to<T> m_equalTo; //* STD comparing function, calls the operator==
 
-    void resize(const size_t &newSize);
+    size_t hashCode(const T &element, size_t buckets);
+
+    /**
+     * @brief Creates a new m_table of size: `m_size * 2`
+     */
+    void resize();
+
     /**
      * @brief Traverse the Linked List testing that the element is unique and adds it to the tail
      * @param bucket_list The Linked List at the index inside the table
@@ -110,15 +116,15 @@ bool HashSet<T>::add(const T &elem)
     auto code = m_hasher(elem) % m_bucketsCount;
     std::cout << "Element " << elem << " / code: " << code << "\n";
 
-    if (code >= m_bucketsCount || m_tableLoad > LOAD_FACTOR)
-        resize(code);
+    if (/*code >= m_bucketsCount ||*/ m_tableLoad > LOAD_FACTOR)
+        resize();
 
     if (m_table[code].size() == 0) // LinkedList at this position is empty
     {
         m_table[code].addLast(elem);
         m_size++;
         m_tableLoad = (float)m_size / (float)m_bucketsCount;
-        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, index: " << code << " , table load: " << m_tableLoad << '\n';
+        std::cout << m_table[code].getFirst() << " <- added to the HashTable, index: " << code << " , table load: " << m_tableLoad << '\n';
         return true;
     }
     else // Bucket not empty
@@ -141,17 +147,44 @@ bool HashSet<T>::separateChaning(LinkedList<T> &bucket_content, const T &element
     m_size++;
     m_tableLoad = (float)m_size / (float)m_bucketsCount;
     std::cout << "Separete chaning, new element added at the tail: " << bucket_content.getLast()
-              << " - Linked list's size grows to : " << bucket_content.size() << '\n';
+              << " - Linked list's size grows to : " << bucket_content.size()
+              << " , table load: " << m_tableLoad << '\n';
     return true;
 }
 
 // TODO
 template <typename T>
-void HashSet<T>::resize(const size_t &newSize)
+void HashSet<T>::resize()
 {
-    std::cout << "Need to re-size\n";
-    // LinkedList<T> *newTable = new LinkedList<T>[newSize * 2];
-    // delete[] m_table;
+    std::cout << "\n ================ Need to re-size ================ \n";
+    size_t oldBucketCount = m_bucketsCount;
+    m_bucketsCount *= 2;
+    m_size = 0;
+    m_tableLoad = m_size / m_bucketsCount;
+    std::cout << "new capacity: " << m_bucketsCount
+              << " reset m_size: " << m_size << "\n";
+    LinkedList<T> *tempTable = m_table;
+    // LinkedList<T> *newTable
+    m_table = new LinkedList<T>[m_bucketsCount];
+    for (size_t i = 0; i < oldBucketCount; i++)
+    {
+        if (tempTable[i].size() != 0)
+        {
+            for (size_t j = 0; j < tempTable[i].size(); j++)
+            {
+                // size_t code = hashCode(tempTable[i].get(j), newBucketCount);
+                add(tempTable[i].get(j));
+            }
+        }
+    }
+    delete[] tempTable;
+}
+
+template <typename T>
+size_t HashSet<T>::hashCode(const T &element, size_t buckets)
+{
+    auto code = m_hasher(element) % buckets;
+    return code;
 }
 
 template <typename T>
