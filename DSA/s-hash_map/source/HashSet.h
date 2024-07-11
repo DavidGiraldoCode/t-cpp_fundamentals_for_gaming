@@ -19,16 +19,13 @@ class HashSet : public Set<T>
 public:
     /**
      * Creates a hash table with the given capacity (amount of buckets).
-     *
      * @throws IllegalArgumentException if capacity <= 0.
      */
     HashSet(const int capacity);
     ~HashSet();
     /**
      * Adds the given element to the set.
-     *
      * @brief O(1) expected time. Use the `std::hash<T>` class to create the hash code
-     *
      * @param elem An element to add to the set.
      * @return true if the set did not contain the element, otherwise false.
      */
@@ -36,9 +33,7 @@ public:
 
     /**
      * Removes the given element from the dictionary, if it is present.
-     *
      * Complexity: O(1) expected time.
-     *
      * @param elem An element to remove from the set.
      * @return true if the set contained the element, false otherwise.
      */
@@ -46,9 +41,7 @@ public:
 
     /**
      * Check if an element is in the Set.
-     *
      * Complexity: O(1) expected time.
-     *
      * @param elem An element to look for.
      * @return true if the element is in the set, false otherwise.
      */
@@ -56,9 +49,7 @@ public:
 
     /**
      * Returns the number of elements in this set.
-     *
      * Complexity: O(1) expected time.
-     *
      * @return The amount of elements in this set.
      */
     size_t size() const override;
@@ -70,9 +61,16 @@ private:
     float m_tableLoad = 0.0f;
     const float LOAD_FACTOR = 0.75f;
     std::hash<T> m_hasher;      //* STD hashing function
-    std::equal_to<T> m_equalTo; //* STD comparate function
+    std::equal_to<T> m_equalTo; //* STD comparing function, calls the operator==
 
     void resize(const size_t &newSize);
+    /**
+     * @brief Traverse the Linked List testing that the element is unique and adds it to the tail
+     * @param bucket_list The Linked List at the index inside the table
+     * @param elem Element to test and add
+     * @return True if the element was added, otherwise false.
+     */
+    bool separateChaning(LinkedList<T> &bucket_content, const T &element);
 };
 
 //* Implementation
@@ -125,22 +123,26 @@ bool HashSet<T>::add(const T &elem)
     }
     else // Bucket not empty
     {
-
-        for (size_t i = 0; i < m_table[code].size(); i++)
-        {
-            if (elem == m_table[code].get(i))
-                return false;
-        }
-        std::cout << "Theres was Collission: Element -> " << elem
-                  << " - Bucket content -> " << m_table[code].getFirst() << '\n';
-        m_table[code].addLast(elem);
-        m_size++;
-        m_tableLoad = (float)m_size / (float)m_bucketsCount;
-        std::cout << "Separete chaning, new element added at the tail: " << m_table[code].getLast()
-                  << " - Linked list's size grows to : " << m_table[code].size() << '\n';
-        return true;
-        // (m_hasher(m_table[code].getFirst()) % m_bucketsCount)
+        return separateChaning(m_table[code], elem);
     }
+}
+
+template <typename T>
+bool HashSet<T>::separateChaning(LinkedList<T> &bucket_content, const T &element)
+{
+    for (size_t i = 0; i < bucket_content.size(); i++)
+    {
+        if (element == bucket_content.get(i))
+            return false;
+    }
+    std::cout << "Theres was Collission: Element -> " << element
+              << " - Bucket content -> " << bucket_content.getFirst() << '\n';
+    bucket_content.addLast(element);
+    m_size++;
+    m_tableLoad = (float)m_size / (float)m_bucketsCount;
+    std::cout << "Separete chaning, new element added at the tail: " << bucket_content.getLast()
+              << " - Linked list's size grows to : " << bucket_content.size() << '\n';
+    return true;
 }
 
 // TODO
