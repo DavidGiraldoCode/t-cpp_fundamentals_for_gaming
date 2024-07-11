@@ -148,8 +148,8 @@ template <typename T>
 void HashSet<T>::resize(const size_t &newSize)
 {
     std::cout << "Need to re-size\n";
-    LinkedList<T> *newTable = new LinkedList<T>[newSize * 2];
-    delete[] m_table;
+    // LinkedList<T> *newTable = new LinkedList<T>[newSize * 2];
+    // delete[] m_table;
 }
 
 template <typename T>
@@ -171,8 +171,24 @@ bool HashSet<T>::contains(const T &elem) const
     if (code >= m_bucketsCount)
         return false;
 
+    if (m_table[code].size() == 0)
+    {
+        return false;
+    }
+    else // There is a Linked List and probably a chain to traverse
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            if (m_equalTo(m_table[code].get(i), elem))
+            {
+                std::cout << "Element " << elem << " is alredy in the Table\n";
+                return true;
+            }
+        }
+        return false;
+    }
     // std::cout << m_table[code].getFirst() << " the element, ";
-    return m_table[code].size() != 0 ? m_equalTo(m_table[code].getFirst(), elem) : false;
+    // return m_table[code].size() != 0 ? m_equalTo(m_table[code].getFirst(), elem) : false;
 }
 
 template <typename T>

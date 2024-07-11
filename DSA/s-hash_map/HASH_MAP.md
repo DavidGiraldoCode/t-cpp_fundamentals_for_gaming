@@ -31,7 +31,8 @@ Reduce the encoded _Interger_ into a `size_t` within the range of the array. The
 ### 3. Collissions: 
 In come cases, completly different objects can end up with the same `key`, we need to resolve these cases so both elements can be stored and retrieved.
 - **Lienar Probing:** Look for more space on the next position linearly.
-- **Seperate Chaining:** Create a second dimension on at that positon to link the element.
+- **Separate Chaining:** Create a second dimension on at that positon to link the element.
+`[hashCode] = {(elem1) -> next}, {(elem2) -> next}`
 To make sure a collision has occurred (and no to the same object trying to be inserted), one needs to compare the element to insert and the element inside the table by implementing the `operator==`. One must compare only relevant attribut to avoid uncesarry computations.
 ```C++
 bool operator==(const MyClass &otherObject) const
