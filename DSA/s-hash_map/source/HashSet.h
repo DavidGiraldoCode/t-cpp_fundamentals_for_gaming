@@ -60,8 +60,8 @@ private:
     size_t m_bucketsCount = 0;
     float m_tableLoad = 0.0f;
     const float LOAD_FACTOR = 0.75f;
-    //std::hash<T> m_hasher;      //* STD hashing function
-    K m_hasher; 
+    // std::hash<T> m_hasher;      //* STD hashing function
+    K m_hasher;
     std::equal_to<T> m_equalTo; //* STD comparing function, calls the operator==
 
     size_t hashCode(const T &element, size_t buckets);
@@ -90,7 +90,7 @@ HashSet<K, T>::HashSet(const int capacity) : m_bucketsCount(capacity)
 
     //? Recall the capacity of a Raw array can change.
     m_table = new LinkedList<T>[capacity];
-    //std::cout << "Size of: " << sizeof(T) << '\n';
+    // std::cout << "Size of: " << sizeof(T) << '\n';
     m_bucketsCount = capacity;
     m_tableLoad = m_size / m_bucketsCount;
 };
@@ -195,7 +195,25 @@ bool HashSet<K, T>::remove(const T &elem)
         return false;
 
     auto code = m_hasher(elem) % m_bucketsCount;
-    m_table[code].removeFirst();
+    if (m_table[code].size() == 1)
+    {
+        std::cout << "Found the match, removing...\n";
+        m_table[code].removeLast();
+    }
+    else
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            if (m_equalTo(m_table[code].get(i), elem))
+            {
+                std::cout << "Found the match in the separate chaining, removing...\n";
+            }
+        }
+    }
+    m_size--;
+    m_tableLoad = (float)m_size / (float)m_bucketsCount;
+    std::cout << "Size: " << m_size << " Table Load factor: " << m_tableLoad << "\n";
+    // m_table[code].removeFirst();
     return true;
 }
 

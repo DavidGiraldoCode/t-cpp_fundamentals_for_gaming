@@ -1,10 +1,11 @@
 // g++ -std=c++20 *.cpp -o myProgram && ./myProgram
 #include <iostream>
 #include "HashSet.h"
-/*
+
 void testingForString()
 {
-    HashSet<std::string> hashSetStrings = HashSet<std::string>(5);
+    // HashSet<std::string> hashSetStrings = HashSet<std::string>(5);
+    HashSet<std::hash<std::string>, std::string> hashSetStrings = HashSet<std::hash<std::string>, std::string>(5);
     std::vector<std::string> records = {"David", "David", "Juan", "Jose", "Arturo", "Camilo", "Camila"};
 
     for (size_t i = 0; i < records.size(); i++)
@@ -17,7 +18,7 @@ void testingForString()
     std::cout << "Test presence of: " << "Pedro" << " -> " << hashSetStrings.contains("Pedro") << '\n';
     std::cout << "Test presence of: " << records[5] << " -> " << hashSetStrings.contains(records[5]) << '\n';
 }
-*/
+
 void testingForChars()
 {
     // HashSet<char> hashSetChars = HashSet<char>(5);
@@ -71,29 +72,30 @@ struct HashPerson
     }
 };
 
-// HashSet<Person> personHashSet = HashSet<Person>(10);
-// const Person p1 {"1995-03-23", 173};
-// personHashSet.add(p1);
-// testingForChars();
-// testingForString();
-// HashSet<HashPerson, Person> hashSetPeople = HashSet<HashPerson, Person>(5);
-int main(int argc, char *argv[])
+void testingForUserTypes()
 {
-
     Person p = Person(50, "David");
     Person p2 = Person(41, "Pedro");
     Person p3 = Person(90, "Juan");
     Person p4 = Person(15, "David");
     std::cout << p << '\n';
     HashSet<HashPerson, Person> hashSetPeople = HashSet<HashPerson, Person>(5);
-    std::cout << "Test presence of: " << p << " -> " << hashSetPeople.contains(p) << '\n';
+    // std::cout << "Test presence of: " << p << " -> " << hashSetPeople.contains(p) << '\n';
     hashSetPeople.add(p);
     hashSetPeople.add(p2);
-    std::cout << "Test presence of: " << p3 << " -> " << hashSetPeople.contains(p3) << '\n';
+    // std::cout << "Test presence of: " << p3 << " -> " << hashSetPeople.contains(p3) << '\n';
     hashSetPeople.add(p3);
     hashSetPeople.add(p4);
-    std::cout << "Test presence of: " << p3 << " -> " << hashSetPeople.contains(p3) << '\n';
+    // std::cout << "Test presence of: " << p3 << " -> " << hashSetPeople.contains(p3) << '\n';
+    hashSetPeople.remove(p2);
+    hashSetPeople.remove(p4);
+}
 
+int main(int argc, char *argv[])
+{
+    // testingForString();
+    // testingForChars();
+    testingForUserTypes();
     return 0;
 }
 
