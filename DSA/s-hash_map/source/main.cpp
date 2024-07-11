@@ -78,6 +78,8 @@ void testingForUserTypes()
     Person p2 = Person(41, "Pedro");
     Person p3 = Person(90, "David");
     Person p4 = Person(69, "David");
+    Person p5 = Person(5, "David");
+    Person p6 = Person(78, "Pedro");
     std::cout << p << '\n';
     HashSet<HashPerson, Person> hashSetPeople = HashSet<HashPerson, Person>(5);
     // std::cout << "Test presence of: " << p << " -> " << hashSetPeople.contains(p) << '\n';
@@ -87,8 +89,11 @@ void testingForUserTypes()
     hashSetPeople.add(p3);
     hashSetPeople.add(p4);
     // std::cout << "Test presence of: " << p3 << " -> " << hashSetPeople.contains(p3) << '\n';
-    hashSetPeople.remove(p2);
+    //hashSetPeople.remove(p2);
     hashSetPeople.remove(p3);
+    hashSetPeople.remove(p);
+    hashSetPeople.remove(p5);
+    hashSetPeople.remove(p6);
 }
 
 int main(int argc, char *argv[])
