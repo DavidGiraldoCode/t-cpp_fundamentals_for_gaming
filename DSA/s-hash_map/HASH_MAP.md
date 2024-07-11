@@ -74,8 +74,31 @@ struct MyHash
     }
 };
 ```
+
 The noexcept specifier indicates that the hash function does not throw any exceptions, so there is no need to wrap it inside a try-catch block.
 
-> Recall, Bitwise XOR (^): Compares each bit of the two numbers and returns 1 if the bits are different, and 0 if they are the same. For 1 is 0001 and 2 is 0010, then 1^2 =  0011, which is 3 in decimal.
+> Recall, Bitwise XOR (^): Compares each bit of the two numbers and returns 1 if the bits are different, and 0 if they are the same. For 1 is 0001 and 2 is 0010, then 1^2 = 0011, which is 3 in decimal.
 
 > Recall, Bitwise Shift Left (<<): Shifts the bits of a number 'n' positions to the left. In binary, 1 is 0001. Shifting it one position to the left gives 0010, which is 2 in decimal.
+
+To upgrade the `HashSet<T>` implementation to be able to handle a custom _hash function_ it need a second template parameter:
+
+```C++
+template <class K, typename T>
+class HashSet : public Set<T>
+{
+    K m_hasher;
+}
+```
+
+### Utilities of `operator<<` stream
+
+One can print an object by overloading the output stream operator
+
+```C++
+std::ostream &operator<<(std::ostream &s, const Person &p)
+{
+    s << p.m_name << " - " << p.m_age << '\n';
+    return s;
+}
+```

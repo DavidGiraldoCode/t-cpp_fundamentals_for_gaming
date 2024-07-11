@@ -64,7 +64,7 @@ private:
     K m_hasher;
     std::equal_to<T> m_equalTo; //* STD comparing function, calls the operator==
 
-    size_t hashCode(const T &element, size_t buckets);
+    size_t hashCode(const T &element);
 
     /**
      * @brief Creates a new m_table of size: `m_size * 2`
@@ -181,24 +181,29 @@ void HashSet<K, T>::resize()
 }
 
 template <class K, typename T>
-size_t HashSet<K, T>::hashCode(const T &element, size_t buckets)
+size_t HashSet<K, T>::hashCode(const T &element)
 {
-    auto code = m_hasher(element) % buckets;
+    auto code = m_hasher(element) % m_bucketsCount;
     return code;
 }
 
-// TODO does not account for separate chaining
 template <class K, typename T>
 bool HashSet<K, T>::remove(const T &elem)
 {
-    if (!contains(elem))
+    auto code = hashCode(elem);
+    if (m_table[code].size() == 0)
+    {
+        std::cout << elem << " has not been stored.\n";
         return false;
-
-    auto code = m_hasher(elem) % m_bucketsCount;
-    if (m_table[code].size() == 1)
+    }
+    else if (m_table[code].size() == 1 && m_equalTo(m_table[code].getFirst(), elem) )
     {
         std::cout << "Found the match, removing...\n";
-        m_table[code].removeLast();
+        m_table[code].removeFirst();
+        m_size--;
+        m_tableLoad = (float)m_size / (float)m_bucketsCount;
+        std::cout << "Size: " << m_size << " Table Load factor: " << m_tableLoad << "\n";
+        return true;
     }
     else
     {
@@ -206,15 +211,17 @@ bool HashSet<K, T>::remove(const T &elem)
         {
             if (m_equalTo(m_table[code].get(i), elem))
             {
-                std::cout << "Found the match in the separate chaining, removing...\n";
+                std::cout << "Found the match in the linked list\n";
+                m_table[code].removeAt(i);
+                m_size--;
+                m_tableLoad = (float)m_size / (float)m_bucketsCount;
+                std::cout << "Size: " << m_size << " Table Load factor: " << m_tableLoad << "\n";
+                return true;
             }
         }
+        std::cout << elem << " has not been stored (in separate chaining).\n";
+        return false;
     }
-    m_size--;
-    m_tableLoad = (float)m_size / (float)m_bucketsCount;
-    std::cout << "Size: " << m_size << " Table Load factor: " << m_tableLoad << "\n";
-    // m_table[code].removeFirst();
-    return true;
 }
 
 template <class K, typename T>
