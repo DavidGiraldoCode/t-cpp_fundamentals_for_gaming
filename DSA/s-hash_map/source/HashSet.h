@@ -206,14 +206,14 @@ bool HashSet<K, T>::remove(const T &elem)
         {
             if (m_equalTo(m_table[code].get(i), elem))
             {
-                std::cout << "Found the match in the separate chaining, removing...\n";
+                std::cout << "Found the match in the linked list\n";
+                m_table[code].removeAt(i);
             }
         }
     }
     m_size--;
     m_tableLoad = (float)m_size / (float)m_bucketsCount;
     std::cout << "Size: " << m_size << " Table Load factor: " << m_tableLoad << "\n";
-    // m_table[code].removeFirst();
     return true;
 }
 

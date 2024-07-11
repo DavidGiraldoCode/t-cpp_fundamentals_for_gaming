@@ -80,6 +80,13 @@ public:
      */
     T removeLast();
     /**
+     * Removes at a given index.
+     *
+     * @return The removed element.
+     * @throws NoSuchElementException if the list is empty.
+     */
+    T removeAt(size_t index);
+    /**
      * Removes all of the elements from the list.
      */
     void clear();
@@ -96,7 +103,7 @@ public:
      */
     bool isEmpty() const;
     //! Convert to String will be pending.
-     /**
+    /**
      * Creates a string representation of this list. The string
      * representation consists of a list of the elements enclosed in
      * square brackets ("[]"). Adjacent elements are separated by the
@@ -148,7 +155,7 @@ LinkedList<T>::LinkedList(const LinkedList &other) : first(nullptr), last(nullpt
     }
     else
     {
-       //* std::cout << "empty copy of LinkedList created \n";
+        //* std::cout << "empty copy of LinkedList created \n";
     }
 }
 
@@ -275,6 +282,7 @@ T LinkedList<T>::removeFirst()
     }
 
     m_size--;
+    std::cout << removedElement << " removed!\n";
     return removedElement;
 }
 
@@ -300,7 +308,48 @@ T LinkedList<T>::removeLast()
     }
 
     m_size--;
+    std::cout << removedElement << " removed!\n";
     return removedElement;
+}
+
+template <typename T>
+T LinkedList<T>::removeAt(size_t target)
+{
+    if (m_size == 0)
+        throw std::logic_error{"Nothing to remove,list alredy empty"};
+    if (target >= m_size)
+        throw std::logic_error{"Index out of bound"};
+    if (m_size == 1 || target == 0)
+    {
+        return removeFirst();
+    }
+    else if (target == m_size - 1)
+    {
+        return removeLast();
+    }
+    else
+    {
+        ListElement *cursor = first;
+        int i = 0;
+        while (cursor != nullptr && i <= target)
+        {
+            ListElement *temp = cursor->next;
+            cursor = temp;
+            i++;
+            std::cout << i << " - i \n";
+        }
+        T removedElement = cursor->element;
+        ListElement *back = cursor->previous;
+        ListElement *front = cursor->next;
+        if (back) // current was not the first element
+            back->next = front;
+        if (front) // current was not the last element
+            front->previous = back;
+        m_size--;
+        delete cursor;
+        std::cout << removedElement << " removed!\n";
+        return removedElement;
+    }
 }
 
 template <typename T>
