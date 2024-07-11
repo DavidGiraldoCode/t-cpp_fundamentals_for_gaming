@@ -116,15 +116,14 @@ bool HashSet<T>::add(const T &elem)
     auto code = m_hasher(elem) % m_bucketsCount;
     std::cout << "Element " << elem << " / code: " << code << "\n";
 
-    if (/*code >= m_bucketsCount ||*/ m_tableLoad > LOAD_FACTOR)
-        resize();
-
     if (m_table[code].size() == 0) // LinkedList at this position is empty
     {
         m_table[code].addLast(elem);
         m_size++;
         m_tableLoad = (float)m_size / (float)m_bucketsCount;
         std::cout << m_table[code].getFirst() << " <- added to the HashTable, index: " << code << " , table load: " << m_tableLoad << '\n';
+        if (m_tableLoad > LOAD_FACTOR)
+            resize();
         return true;
     }
     else // Bucket not empty
@@ -149,10 +148,11 @@ bool HashSet<T>::separateChaning(LinkedList<T> &bucket_content, const T &element
     std::cout << "Separete chaning, new element added at the tail: " << bucket_content.getLast()
               << " - Linked list's size grows to : " << bucket_content.size()
               << " , table load: " << m_tableLoad << '\n';
+    if (m_tableLoad > LOAD_FACTOR)
+        resize();
     return true;
 }
 
-// TODO
 template <typename T>
 void HashSet<T>::resize()
 {
@@ -164,7 +164,6 @@ void HashSet<T>::resize()
     std::cout << "new capacity: " << m_bucketsCount
               << " reset m_size: " << m_size << "\n";
     LinkedList<T> *tempTable = m_table;
-    // LinkedList<T> *newTable
     m_table = new LinkedList<T>[m_bucketsCount];
     for (size_t i = 0; i < oldBucketCount; i++)
     {
@@ -172,11 +171,11 @@ void HashSet<T>::resize()
         {
             for (size_t j = 0; j < tempTable[i].size(); j++)
             {
-                // size_t code = hashCode(tempTable[i].get(j), newBucketCount);
                 add(tempTable[i].get(j));
             }
         }
     }
+    std::cout << "\n ------------ Finished re-sizing ------------- \n";
     delete[] tempTable;
 }
 
@@ -187,6 +186,7 @@ size_t HashSet<T>::hashCode(const T &element, size_t buckets)
     return code;
 }
 
+//TODO does not account for separate chaining
 template <typename T>
 bool HashSet<T>::remove(const T &elem)
 {
@@ -198,7 +198,6 @@ bool HashSet<T>::remove(const T &elem)
     return true;
 }
 
-// TODO the current code does not account for resolved collisions
 template <typename T>
 bool HashSet<T>::contains(const T &elem) const
 {
@@ -222,8 +221,6 @@ bool HashSet<T>::contains(const T &elem) const
         }
         return false;
     }
-    // std::cout << m_table[code].getFirst() << " the element, ";
-    // return m_table[code].size() != 0 ? m_equalTo(m_table[code].getFirst(), elem) : false;
 }
 
 template <typename T>
