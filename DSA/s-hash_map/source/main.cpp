@@ -8,34 +8,8 @@ struct Person
     int height;
 };
 
-// TODO
-/**
- * Add unque intergers
- */
-
-int main(int argc, char *argv[])
+void testingForString()
 {
-    /*
-    HashSet<int> hashSet = HashSet<int>(10);
-    const int recordA = 0;
-    const int recordB = 0;
-    const int recordC = 1;
-
-    hashSet.add(recordC);
-    hashSet.add(recordA);
-    hashSet.add(recordB);
-    */
-
-    /*HashSet<char> hashSetChars = HashSet<char>(10);
-     const char recordA = 'a';
-     const char recordB = 'b';
-     const char recordC = 'a';
-
-     hashSetChars.add(recordA);
-     hashSetChars.add(recordB);
-     hashSetChars.add(recordC);*/
-    HashSet<int> hashSet = HashSet<int>(10);
-    HashSet<char> hashSetChars = HashSet<char>(10);
     HashSet<std::string> hashSetStrings = HashSet<std::string>(5);
     std::vector<std::string> records = {"David", "David", "Juan", "Jose", "Arturo", "Camilo", "Camila"};
 
@@ -45,13 +19,33 @@ int main(int argc, char *argv[])
     }
     std::cout << "Test presence of: " << records[0] << " -> " << hashSetStrings.contains(records[0]) << '\n';
     std::cout << "Test presence of: " << records[6] << " -> " << hashSetStrings.contains(records[6]) << '\n';
-    // std::cout << "Remove test status: " << hashSetStrings.remove("David") << '\n';
-    // std::cout << "Test presence of: " << records[0] << " -> " << hashSetStrings.contains(records[0]) << '\n';
+    std::cout << "Test presence of: " << records[2] << " -> " << hashSetStrings.contains(records[2]) << '\n';
+    std::cout << "Test presence of: " << "Pedro" << " -> " << hashSetStrings.contains("Pedro") << '\n';
+    std::cout << "Test presence of: " << records[5] << " -> " << hashSetStrings.contains(records[5]) << '\n';
+}
+void testingForChars()
+{
+    HashSet<char> hashSetChars = HashSet<char>(5);
+    std::vector<char> records = {'d', 'd', 'J', 'j', 'a', 'c', 'C', 'a', 'A'};
 
+    for (size_t i = 0; i < records.size(); i++)
+    {
+        hashSetChars.add(records[i]);
+    }
+    std::cout << "Test presence of: " << records[0] << " -> " << hashSetChars.contains(records[0]) << '\n';
+    std::cout << "Test presence of: " << records[6] << " -> " << hashSetChars.contains(records[6]) << '\n';
+    std::cout << "Test presence of: " << records[2] << " -> " << hashSetChars.contains(records[2]) << '\n';
+    std::cout << "Test presence of: " << 'P' << " -> " << hashSetChars.contains('P') << '\n';
+    std::cout << "Test presence of: " << records[5] << " -> " << hashSetChars.contains(records[5]) << '\n';
+}
+
+int main(int argc, char *argv[])
+{
     // HashSet<Person> personHashSet = HashSet<Person>(10);
     // const Person p1 {"1995-03-23", 173};
     // personHashSet.add(p1);
-
+    testingForChars();
+    testingForString();
     return 0;
 }
 
