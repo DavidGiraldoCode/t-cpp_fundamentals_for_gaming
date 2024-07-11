@@ -13,7 +13,7 @@
  * @brief A template class implementing a HashSet with a raw array of LinkedLists as table.
  * @tparam T The type of elements stored in the list.
  */
-template <typename T>
+template <class K, typename T>
 class HashSet : public Set<T>
 {
 public:
@@ -60,7 +60,8 @@ private:
     size_t m_bucketsCount = 0;
     float m_tableLoad = 0.0f;
     const float LOAD_FACTOR = 0.75f;
-    std::hash<T> m_hasher;      //* STD hashing function
+    //std::hash<T> m_hasher;      //* STD hashing function
+    K m_hasher; 
     std::equal_to<T> m_equalTo; //* STD comparing function, calls the operator==
 
     size_t hashCode(const T &element, size_t buckets);
@@ -81,29 +82,29 @@ private:
 
 //* Implementation
 
-template <typename T>
-HashSet<T>::HashSet(const int capacity) : m_bucketsCount(capacity)
+template <class K, typename T>
+HashSet<K, T>::HashSet(const int capacity) : m_bucketsCount(capacity)
 {
     if (capacity <= 0)
         throw std::invalid_argument{"capacity must be a positive, non-zero value!"};
 
     //? Recall the capacity of a Raw array can change.
     m_table = new LinkedList<T>[capacity];
-    std::cout << "Size of: " << sizeof(T) << '\n';
+    //std::cout << "Size of: " << sizeof(T) << '\n';
     m_bucketsCount = capacity;
     m_tableLoad = m_size / m_bucketsCount;
 };
 
-template <typename T>
-HashSet<T>::~HashSet()
+template <class K, typename T>
+HashSet<K, T>::~HashSet()
 {
     delete[] m_table;
 };
 
 //* Member functions
 
-template <typename T>
-bool HashSet<T>::add(const T &elem)
+template <class K, typename T>
+bool HashSet<K, T>::add(const T &elem)
 {
     if (contains(elem)) // Invariance: check if it is a new element
         return false;
@@ -132,8 +133,8 @@ bool HashSet<T>::add(const T &elem)
     }
 }
 
-template <typename T>
-bool HashSet<T>::separateChaning(LinkedList<T> &bucket_content, const T &element)
+template <class K, typename T>
+bool HashSet<K, T>::separateChaning(LinkedList<T> &bucket_content, const T &element)
 {
     for (size_t i = 0; i < bucket_content.size(); i++)
     {
@@ -153,8 +154,8 @@ bool HashSet<T>::separateChaning(LinkedList<T> &bucket_content, const T &element
     return true;
 }
 
-template <typename T>
-void HashSet<T>::resize()
+template <class K, typename T>
+void HashSet<K, T>::resize()
 {
     std::cout << "\n ================ Need to re-size ================ \n";
     size_t oldBucketCount = m_bucketsCount;
@@ -179,16 +180,16 @@ void HashSet<T>::resize()
     delete[] tempTable;
 }
 
-template <typename T>
-size_t HashSet<T>::hashCode(const T &element, size_t buckets)
+template <class K, typename T>
+size_t HashSet<K, T>::hashCode(const T &element, size_t buckets)
 {
     auto code = m_hasher(element) % buckets;
     return code;
 }
 
-//TODO does not account for separate chaining
-template <typename T>
-bool HashSet<T>::remove(const T &elem)
+// TODO does not account for separate chaining
+template <class K, typename T>
+bool HashSet<K, T>::remove(const T &elem)
 {
     if (!contains(elem))
         return false;
@@ -198,8 +199,8 @@ bool HashSet<T>::remove(const T &elem)
     return true;
 }
 
-template <typename T>
-bool HashSet<T>::contains(const T &elem) const
+template <class K, typename T>
+bool HashSet<K, T>::contains(const T &elem) const
 {
     auto code = m_hasher(elem) % m_bucketsCount;
     if (code >= m_bucketsCount)
@@ -223,8 +224,8 @@ bool HashSet<T>::contains(const T &elem) const
     }
 }
 
-template <typename T>
-size_t HashSet<T>::size() const
+template <class K, typename T>
+size_t HashSet<K, T>::size() const
 {
     return m_size;
 }
