@@ -13,22 +13,19 @@
  * @brief A template class implementing a HashSet with a raw array of LinkedLists as table.
  * @tparam T The type of elements stored in the list.
  */
-template <typename T>
+template <class K, typename T>
 class HashSet : public Set<T>
 {
 public:
     /**
      * Creates a hash table with the given capacity (amount of buckets).
-     *
      * @throws IllegalArgumentException if capacity <= 0.
      */
     HashSet(const int capacity);
     ~HashSet();
     /**
      * Adds the given element to the set.
-     *
      * @brief O(1) expected time. Use the `std::hash<T>` class to create the hash code
-     *
      * @param elem An element to add to the set.
      * @return true if the set did not contain the element, otherwise false.
      */
@@ -36,9 +33,7 @@ public:
 
     /**
      * Removes the given element from the dictionary, if it is present.
-     *
      * Complexity: O(1) expected time.
-     *
      * @param elem An element to remove from the set.
      * @return true if the set contained the element, false otherwise.
      */
@@ -46,9 +41,7 @@ public:
 
     /**
      * Check if an element is in the Set.
-     *
      * Complexity: O(1) expected time.
-     *
      * @param elem An element to look for.
      * @return true if the element is in the set, false otherwise.
      */
@@ -56,9 +49,7 @@ public:
 
     /**
      * Returns the number of elements in this set.
-     *
      * Complexity: O(1) expected time.
-     *
      * @return The amount of elements in this set.
      */
     size_t size() const override;
@@ -69,111 +60,190 @@ private:
     size_t m_bucketsCount = 0;
     float m_tableLoad = 0.0f;
     const float LOAD_FACTOR = 0.75f;
-    std::hash<T> m_hasher;      //* STD hashing function
-    std::equal_to<T> m_equalTo; //* STD comparate function
+    // std::hash<T> m_hasher;      //* STD hashing function
+    K m_hasher;
+    std::equal_to<T> m_equalTo; //* STD comparing function, calls the operator==
 
-    void resize(const size_t &newSize);
+    size_t hashCode(const T &element, size_t buckets);
+
+    /**
+     * @brief Creates a new m_table of size: `m_size * 2`
+     */
+    void resize();
+
+    /**
+     * @brief Traverse the Linked List testing that the element is unique and adds it to the tail
+     * @param bucket_list The Linked List at the index inside the table
+     * @param elem Element to test and add
+     * @return True if the element was added, otherwise false.
+     */
+    bool separateChaning(LinkedList<T> &bucket_content, const T &element);
 };
 
 //* Implementation
 
-template <typename T>
-HashSet<T>::HashSet(const int capacity) : m_bucketsCount(capacity)
+template <class K, typename T>
+HashSet<K, T>::HashSet(const int capacity) : m_bucketsCount(capacity)
 {
     if (capacity <= 0)
         throw std::invalid_argument{"capacity must be a positive, non-zero value!"};
 
     //? Recall the capacity of a Raw array can change.
     m_table = new LinkedList<T>[capacity];
-    std::cout << "Size of: " << sizeof(T) << '\n';
+    // std::cout << "Size of: " << sizeof(T) << '\n';
     m_bucketsCount = capacity;
     m_tableLoad = m_size / m_bucketsCount;
 };
 
-template <typename T>
-HashSet<T>::~HashSet()
+template <class K, typename T>
+HashSet<K, T>::~HashSet()
 {
     delete[] m_table;
 };
 
 //* Member functions
 
-template <typename T>
-bool HashSet<T>::add(const T &elem)
+template <class K, typename T>
+bool HashSet<K, T>::add(const T &elem)
 {
     if (contains(elem)) // Invariance: check if it is a new element
         return false;
-
-    auto code = m_hasher(elem) % m_bucketsCount;
-    std::cout << "Code hashed: " << code << "\n";
-
-    if (code >= m_bucketsCount || m_tableLoad > LOAD_FACTOR)
-        resize(code);
-
     /**
-     * We know is new,
+     * Now that we know is new,
+     * 1. Hash the key
      * 1. Check if the bucket is empty,
      * 2. If is not empty, check for collisions
      * */
+    auto code = m_hasher(elem) % m_bucketsCount;
+    std::cout << "Element " << elem << " / code: " << code << "\n";
 
-    if (m_table[code].size() == 0)
+    if (m_table[code].size() == 0) // LinkedList at this position is empty
     {
         m_table[code].addLast(elem);
         m_size++;
         m_tableLoad = (float)m_size / (float)m_bucketsCount;
-        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, with index: " << code << " , table load: " << m_tableLoad << '\n';
+        std::cout << m_table[code].getFirst() << " <- added to the HashTable, index: " << code << " , table load: " << m_tableLoad << '\n';
+        if (m_tableLoad > LOAD_FACTOR)
+            resize();
         return true;
     }
     else // Bucket not empty
     {
-        for (size_t i = 0; i < m_table[code].size(); i++)
-        {
-            size_t bucketCode = (m_hasher(m_table[code].get(i)) % m_bucketsCount);
-            if (code == bucketCode)
-            {
-                std::cout << "Element's code -> " << code << " - Bucket content's code -> " << bucketCode << '\n';
-            }
-        }
-        // (m_hasher(m_table[code].getFirst()) % m_bucketsCount)
-        std::cout << "Theres a Collission: Element -> " << elem << " - Bucket content -> " << m_table[code].getFirst() << '\n';
-        return false;
+        return separateChaning(m_table[code], elem);
     }
 }
 
-// TODO
-template <typename T>
-void HashSet<T>::resize(const size_t &newSize)
+template <class K, typename T>
+bool HashSet<K, T>::separateChaning(LinkedList<T> &bucket_content, const T &element)
 {
-    std::cout << "Need to re-size\n";
-    LinkedList<T> *newTable = new LinkedList<T>[newSize * 2];
-    delete[] m_table;
+    for (size_t i = 0; i < bucket_content.size(); i++)
+    {
+        if (element == bucket_content.get(i))
+            return false;
+    }
+    std::cout << "Theres was Collission: Element -> " << element
+              << " - Bucket content -> " << bucket_content.getFirst() << '\n';
+    bucket_content.addLast(element);
+    m_size++;
+    m_tableLoad = (float)m_size / (float)m_bucketsCount;
+    std::cout << "Separete chaning, new element added at the tail: " << bucket_content.getLast()
+              << " - Linked list's size grows to : " << bucket_content.size()
+              << " , table load: " << m_tableLoad << '\n';
+    if (m_tableLoad > LOAD_FACTOR)
+        resize();
+    return true;
 }
 
-template <typename T>
-bool HashSet<T>::remove(const T &elem)
+template <class K, typename T>
+void HashSet<K, T>::resize()
+{
+    std::cout << "\n ================ Need to re-size ================ \n";
+    size_t oldBucketCount = m_bucketsCount;
+    m_bucketsCount *= 2;
+    m_size = 0;
+    m_tableLoad = m_size / m_bucketsCount;
+    std::cout << "new capacity: " << m_bucketsCount
+              << " reset m_size: " << m_size << "\n";
+    LinkedList<T> *tempTable = m_table;
+    m_table = new LinkedList<T>[m_bucketsCount];
+    for (size_t i = 0; i < oldBucketCount; i++)
+    {
+        if (tempTable[i].size() != 0)
+        {
+            for (size_t j = 0; j < tempTable[i].size(); j++)
+            {
+                add(tempTable[i].get(j));
+            }
+        }
+    }
+    std::cout << "\n ------------ Finished re-sizing ------------- \n";
+    delete[] tempTable;
+}
+
+template <class K, typename T>
+size_t HashSet<K, T>::hashCode(const T &element, size_t buckets)
+{
+    auto code = m_hasher(element) % buckets;
+    return code;
+}
+
+// TODO does not account for separate chaining
+template <class K, typename T>
+bool HashSet<K, T>::remove(const T &elem)
 {
     if (!contains(elem))
         return false;
 
     auto code = m_hasher(elem) % m_bucketsCount;
-    m_table[code].removeFirst();
+    if (m_table[code].size() == 1)
+    {
+        std::cout << "Found the match, removing...\n";
+        m_table[code].removeLast();
+    }
+    else
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            if (m_equalTo(m_table[code].get(i), elem))
+            {
+                std::cout << "Found the match in the separate chaining, removing...\n";
+            }
+        }
+    }
+    m_size--;
+    m_tableLoad = (float)m_size / (float)m_bucketsCount;
+    std::cout << "Size: " << m_size << " Table Load factor: " << m_tableLoad << "\n";
+    // m_table[code].removeFirst();
     return true;
 }
 
-// TODO the current code does not account for resolved collisions
-template <typename T>
-bool HashSet<T>::contains(const T &elem) const
+template <class K, typename T>
+bool HashSet<K, T>::contains(const T &elem) const
 {
     auto code = m_hasher(elem) % m_bucketsCount;
     if (code >= m_bucketsCount)
         return false;
 
-    // std::cout << m_table[code].getFirst() << " the element, ";
-    return m_table[code].size() != 0 ? m_equalTo(m_table[code].getFirst(), elem) : false;
+    if (m_table[code].size() == 0)
+    {
+        return false;
+    }
+    else // There is a Linked List and probably a chain to traverse
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            if (m_equalTo(m_table[code].get(i), elem))
+            {
+                std::cout << "Element " << elem << " is alredy in the Table\n";
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
-template <typename T>
-size_t HashSet<T>::size() const
+template <class K, typename T>
+size_t HashSet<K, T>::size() const
 {
     return m_size;
 }
