@@ -103,40 +103,43 @@ bool HashSet<T>::add(const T &elem)
 {
     if (contains(elem)) // Invariance: check if it is a new element
         return false;
-
+    /**
+     * Now that we know is new,
+     * 1. Hash the key
+     * 1. Check if the bucket is empty,
+     * 2. If is not empty, check for collisions
+     * */
     auto code = m_hasher(elem) % m_bucketsCount;
-    std::cout << "Code hashed: " << code << "\n";
+    std::cout << "Element " << elem << " / code: " << code << "\n";
 
     if (code >= m_bucketsCount || m_tableLoad > LOAD_FACTOR)
         resize(code);
 
-    /**
-     * We know is new,
-     * 1. Check if the bucket is empty,
-     * 2. If is not empty, check for collisions
-     * */
-
-    if (m_table[code].size() == 0)
+    if (m_table[code].size() == 0) // LinkedList at this position is empty
     {
         m_table[code].addLast(elem);
         m_size++;
         m_tableLoad = (float)m_size / (float)m_bucketsCount;
-        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, with index: " << code << " , table load: " << m_tableLoad << '\n';
+        std::cerr << m_table[code].getFirst() << " <- added to the HashTable, index: " << code << " , table load: " << m_tableLoad << '\n';
         return true;
     }
     else // Bucket not empty
     {
+
         for (size_t i = 0; i < m_table[code].size(); i++)
         {
-            size_t bucketCode = (m_hasher(m_table[code].get(i)) % m_bucketsCount);
-            if (code == bucketCode)
-            {
-                std::cout << "Element's code -> " << code << " - Bucket content's code -> " << bucketCode << '\n';
-            }
+            if (elem == m_table[code].get(i))
+                return false;
         }
+        std::cout << "Theres was Collission: Element -> " << elem
+                  << " - Bucket content -> " << m_table[code].getFirst() << '\n';
+        m_table[code].addLast(elem);
+        m_size++;
+        m_tableLoad = (float)m_size / (float)m_bucketsCount;
+        std::cout << "Separete chaning, new element added at the tail: " << m_table[code].getLast()
+                  << " - Linked list's size grows to : " << m_table[code].size() << '\n';
+        return true;
         // (m_hasher(m_table[code].getFirst()) % m_bucketsCount)
-        std::cout << "Theres a Collission: Element -> " << elem << " - Bucket content -> " << m_table[code].getFirst() << '\n';
-        return false;
     }
 }
 
