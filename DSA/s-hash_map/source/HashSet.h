@@ -191,6 +191,31 @@ size_t HashSet<K, T>::hashCode(const T &element, size_t buckets)
 template <class K, typename T>
 bool HashSet<K, T>::remove(const T &elem)
 {
+
+    //TODO improve the method by avoiding traversing twice with the contains();
+    /*auto code = m_hasher(elem) % m_bucketsCount;
+
+    if (m_table[code].size() == 0)
+    {
+        std::cout << "Element " << elem << " is not in the table\n";
+        return false;
+    }
+    else // There is a Linked List and probably a chain to traverse
+    {
+        for (size_t i = 0; i < m_table[code].size(); i++)
+        {
+            if (m_equalTo(m_table[code].get(i), elem))
+            {
+                std::cout << "Element " << elem << " is alredy in the Table\n";
+                return true;
+            }
+        }
+        return false;
+    }*/
+
+    //!
+
+
     if (!contains(elem))
         return false;
 
