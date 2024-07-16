@@ -23,7 +23,8 @@ public:
      */
     bool search(const T &elem) const;
     /**
-     * @brief Add an element to the tree, duplicated not allowed
+     * @brief Add an element to the tree, duplicated not allowed,
+     * lower values to the node go on the left, while higher values to the right.
      * @return True if it is a new element and nsertion is succesful, otherwize false
      * @attention Iterative
      * @note Complexity O(n)
@@ -82,7 +83,7 @@ private:
     /**
      * @note This is owning pointer member, A class with an owner<T> should define its default operations. [C.33](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c33-if-a-class-has-an-owning-pointer-member-define-a-destructor)
      */
-    TreeNode *m_root = nullptr;
+    TreeNode *m_root;
     int m_size = -1;
 };
 
@@ -114,7 +115,46 @@ bool Tree<T>::search(const T &elem) const
 template <typename T>
 bool Tree<T>::insert(const T &elem)
 {
-    return true;
+    TreeNode *newNode = new TreeNode(elem);
+    TreeNode *currenNode = m_root;
+    if (currenNode == nullptr)
+    {
+        std::cout << "Root created " << newNode->data << "\n";
+        m_root = newNode;
+        m_size++;
+        return true;
+    }
+    else
+    {
+        int possition = 0;
+        while (currenNode != nullptr)
+        {
+            TreeNode *nextNode;
+            std::cout << "Inside while: " << currenNode->data  << "possition " << possition << "\n";
+            possition = currenNode->data.compareTo(newNode->data);
+            if (possition == -1)
+            {
+                nextNode = currenNode->leftNode;
+            }
+            else if (possition == 1)
+            {
+                nextNode = currenNode->rightNode;
+            }
+            else if (possition == 0)
+            {
+                std::cout << "BT does not allow duplicates, " << newNode->data << "is already in the tree\n";
+                currenNode = nullptr;
+                return false;
+            }
+
+            currenNode = nextNode;
+        }
+
+        std::cout << "Node added: " << newNode->data << "\n";
+        currenNode = newNode;
+        m_size++;
+        return true;
+    }
 }
 
 template <typename T>
@@ -138,5 +178,13 @@ int Tree<T>::size() const
 template <typename T>
 std::string Tree<T>::toString() const
 {
-    return "Hello";
+    std::string message = "";
+    TreeNode *current = m_root;
+    while (current != nullptr)
+    {
+        message += current->data.toString() + '\n';
+        TreeNode *left = current->leftNode;
+        current = left;
+    }
+    return message;
 }
