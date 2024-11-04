@@ -72,6 +72,7 @@
         "functional": "cpp",
         "charconv": "cpp",
         "execution": "cpp",
-        "__memory": "cpp"
+        "__memory": "cpp",
+        "list": "cpp"
     }
 }
