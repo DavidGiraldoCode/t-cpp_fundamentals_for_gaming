@@ -68,6 +68,11 @@
         "numeric": "cpp",
         "random": "cpp",
         "algorithm": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "functional": "cpp",
+        "charconv": "cpp",
+        "execution": "cpp",
+        "__memory": "cpp",
+        "list": "cpp"
     }
 }
