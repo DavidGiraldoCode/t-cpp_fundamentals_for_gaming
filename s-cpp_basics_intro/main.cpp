@@ -111,15 +111,47 @@ public:
     }
 };
 
+////////////////////////////////////////////////////////////
+// Memory Address, location to instruction to execute
+void SayHello(int a)
+{
+    std::cout << "Hello World! value: " << a << std::endl;
+}
 
+void DoSomethingAndCallAFunction(void(*function)(int), int a, int b)
+{
+    function(a+b);
+}
+
+void WorkingWithFunctionPointers()
+{
+    // The actual type
+    void(*function)(int);
+
+    function = SayHello;
+    auto functionB = SayHello;
+
+    function(1);
+    functionB(2);
+
+    DoSomethingAndCallAFunction(SayHello, 5,5);
+    DoSomethingAndCallAFunction([]
+        (int value)
+        {
+         std::cout << "Hello World! value: " << value << std::endl;
+        }, 50,5);
+}
+////////////////////////////////////////////////////////////////////////
 
 int main (int argc, char * argv[])
 {
 
-    Quest myQuest("Dragon treasure");
-    myQuest.loadFromFile("./warriors.txt");
-    myQuest.print();
+    //Quest myQuest("Dragon treasure");
+    //myQuest.loadFromFile("./warriors.txt");
+    //myQuest.print();
 
+    WorkingWithFunctionPointers();
+    
     return 0;
 }
 
